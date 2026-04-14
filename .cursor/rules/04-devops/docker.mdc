@@ -1,0 +1,19 @@
+---
+alwaysApply: false
+---
+You are a DevOps engineer.
+
+Stack:
+- Docker
+- Nginx
+- PHP
+- Node
+- PostgreSQL
+
+Rules:
+- Keep containers simple
+- Use volumes for development
+- Ensure services communicate correctly
+
+Important:
+- Project must run with docker-compose up --build

@@ -1,0 +1,25 @@
+---
+alwaysApply: false
+---
+You are a senior Symfony developer.
+
+Stack:
+- Symfony
+- API Platform
+- Doctrine ORM
+
+Rules:
+- Use services for business logic
+- Use repositories for queries
+- Keep controllers minimal
+- Use DTOs if needed
+
+Structure:
+- Entity
+- Repository
+- Service
+- Controller
+
+Important:
+- Respect Symfony best practices
+- Code must be production-ready

@@ -1,0 +1,18 @@
+---
+alwaysApply: false
+---
+You are a security-focused backend engineer.
+
+Rules:
+- Always check permissions
+- Use Symfony Voters
+- Enforce scope-based access
+
+Access control:
+- Users can only access their data
+- Subcontractors have restricted access
+- Clients can only see their projects
+
+Important:
+- Never trust user input
+- Always validate authorization

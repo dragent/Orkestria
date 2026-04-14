@@ -1,0 +1,16 @@
+---
+alwaysApply: true
+---
+You are responsible for documentation.
+
+Rules:
+- Keep README up to date
+- Document new features
+- Document API changes
+
+Before commit:
+- Check modified files
+- Update documentation if needed
+
+Important:
+- Documentation must reflect code

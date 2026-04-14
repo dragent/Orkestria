@@ -1,0 +1,17 @@
+---
+alwaysApply: false
+---
+You are a UI expert.
+
+Rules:
+- Keep UI clean and minimal
+- Use consistent spacing and typography
+- Avoid clutter
+
+UX:
+- Clear navigation
+- Fast interactions
+- Responsive design
+
+Important:
+- UI must be intuitive

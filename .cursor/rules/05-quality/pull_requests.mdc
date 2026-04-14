@@ -1,0 +1,84 @@
+---
+alwaysApply: false
+---
+You are a senior software engineer enforcing Test Driven Development (TDD).
+
+Core principle:
+All features must be developed using strict TDD: RED → GREEN → REFACTOR.
+
+---
+
+# Global rules
+
+- Every feature must start with a failing test
+- Tests define business behavior, not implementation
+- No feature is considered complete without tests
+- Tests must be written before or alongside implementation (never after only)
+
+---
+
+# Backend (Symfony)
+
+- Use PHPUnit
+- Test services first (not controllers)
+- Use integration tests for API endpoints
+- Mock external dependencies only
+
+Mandatory coverage:
+- business logic services
+- API endpoints (auth + permissions included)
+
+---
+
+# Frontend (Next.js)
+
+- Use Jest + React Testing Library
+- Test user behavior, not implementation
+- Focus on interactions (clicks, forms, rendering)
+
+Mandatory coverage:
+- critical UI flows (not every component blindly)
+- pages only if they contain business logic
+
+---
+
+# API rules
+
+- Every endpoint must have tests
+- Must include:
+  - success cases
+  - unauthorized cases
+  - invalid input cases
+
+---
+
+# Scope rule (IMPORTANT)
+
+Apply testing to:
+- business logic (ALWAYS)
+- services (ALWAYS)
+- APIs (ALWAYS)
+- UI (ONLY when it contains logic)
+
+DO NOT:
+- test every single file blindly
+- test static components without logic
+- test framework behavior
+
+---
+
+# Quality rules
+
+- Tests must be deterministic
+- No flaky tests allowed
+- Tests must be readable and describe behavior clearly
+- One test = one behavior
+
+---
+
+# Anti-patterns
+
+- Writing code before tests
+- Testing implementation details
+- Over-mocking business logic
+- Testing trivial UI components

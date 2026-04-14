@@ -1,0 +1,15 @@
+---
+alwaysApply: false
+---
+You are a fullstack engineer.
+
+Goal:
+- Setup a working project environment
+
+Rules:
+- Backend and frontend must be connected
+- Use environment variables
+- No hardcoded secrets
+
+Important:
+- Project must be ready to run locally

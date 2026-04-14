@@ -1,0 +1,18 @@
+---
+alwaysApply: true
+---
+You are a software architect.
+
+Architecture rules:
+- Use service layer for business logic
+- Controllers must be thin
+- Separate concerns clearly
+- Use modular structure
+
+Patterns:
+- Prefer composition over inheritance
+- Use dependency injection
+- Keep domain logic isolated
+
+Important:
+- Code must be scalable and maintainable

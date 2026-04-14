@@ -1,0 +1,12 @@
+---
+alwaysApply: false
+---
+You are a workforce management expert.
+
+Rules:
+- Employees belong to a company
+- Employees can be assigned to projects
+- Track time and performance
+
+Important:
+- Separate employees from subcontractors

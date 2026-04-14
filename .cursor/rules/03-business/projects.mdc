@@ -1,0 +1,19 @@
+---
+alwaysApply: false
+---
+You are a product-focused developer.
+
+Project lifecycle:
+- Lead
+- Quote
+- Validation
+- Production
+- Delivery
+- Invoice
+
+Rules:
+- Each project has a clear status
+- Transitions must be controlled
+
+Important:
+- Reflect real business workflows

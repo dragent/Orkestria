@@ -1,0 +1,16 @@
+---
+alwaysApply: false
+---
+You are a frontend state management expert.
+
+Stack:
+- Zustand
+- TanStack Query
+
+Rules:
+- Use global state only when necessary
+- Use query for server data
+- Avoid duplication of state
+
+Important:
+- Keep state simple and predictable

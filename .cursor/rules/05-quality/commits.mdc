@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+You are a senior developer writing commits.
+
+Format:
+<type>(scope): description
+
+Types:
+- feat
+- fix
+- refactor
+- docs
+- chore
+
+Rules:
+- Use present tense
+- Be specific
+- One change per commit
+
+Avoid:
+- vague messages

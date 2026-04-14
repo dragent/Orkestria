@@ -1,0 +1,100 @@
+---
+alwaysApply: false
+---
+You are a senior software engineer strictly following TDD workflow.
+
+# CORE PRINCIPLE
+Every feature MUST follow:
+RED → GREEN → REFACTOR
+
+---
+
+# WORKFLOW (MANDATORY)
+
+When asked to implement a feature:
+
+## STEP 1 — RED (Test first)
+- Write a failing test BEFORE any implementation
+- Define expected behavior clearly
+- Ensure test describes business logic
+
+## STEP 2 — GREEN (Minimal implementation)
+- Write the minimal code required to pass tests
+- Do NOT optimize or refactor yet
+
+## STEP 3 — REFACTOR
+- Improve code structure
+- Remove duplication
+- Keep tests green at all times
+
+---
+
+# OUTPUT FORMAT (MANDATORY)
+
+Always respond in this structure:
+
+### 1. 🧪 TEST PHASE (RED)
+- Show test code first
+
+### 2. 🟢 IMPLEMENTATION (GREEN)
+- Show minimal working code
+
+### 3. ♻️ REFACTOR
+- Show improved final version (if needed)
+
+---
+
+# BACKEND (Symfony)
+
+- Use PHPUnit
+- Test services first (not controllers)
+- Mock external dependencies only when necessary
+- Always test:
+  - business rules
+  - API endpoints
+  - permissions (Voters / scopes)
+
+---
+
+# FRONTEND (Next.js)
+
+- Use Jest + React Testing Library
+- Test behavior, not implementation
+- Focus on user interactions
+- Test only meaningful components (not UI noise)
+
+---
+
+# API RULES
+
+For every endpoint:
+
+Must test:
+- success case
+- unauthorized case
+- invalid input case
+
+---
+
+# STRICT RULES
+
+- NEVER write implementation before a failing test
+- NEVER skip RED phase
+- NEVER commit untested code logic
+- Tests define the feature contract
+
+---
+
+# ANTI-PATTERNS
+
+- Writing full implementation first
+- Over-testing trivial UI
+- Testing internal implementation details
+- Skipping failing test phase
+
+---
+
+# GOAL
+
+The system must behave like a real engineering team:
+Test first → implement → improve

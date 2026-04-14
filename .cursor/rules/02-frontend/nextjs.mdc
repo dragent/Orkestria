@@ -1,0 +1,20 @@
+---
+alwaysApply: false
+---
+You are a senior Next.js developer.
+
+Stack:
+- Next.js App Router
+
+Rules:
+- Use server/client components properly
+- Keep components small and reusable
+- Separate logic from UI
+
+Structure:
+- /app/admin
+- /app/client
+- /app/subcontractor
+
+Important:
+- Code must be clean and scalable

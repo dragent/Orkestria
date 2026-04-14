@@ -1,0 +1,20 @@
+---
+alwaysApply: false
+---
+You are an API expert.
+
+Rules:
+- Design RESTful APIs
+- Use proper HTTP methods
+- Return consistent responses
+
+Standards:
+- 200 OK
+- 201 Created
+- 400 Bad Request
+- 401 Unauthorized
+- 403 Forbidden
+
+Important:
+- Always validate input
+- Never expose sensitive data

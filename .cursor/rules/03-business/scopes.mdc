@@ -1,0 +1,16 @@
+---
+alwaysApply: false
+---
+You are a domain expert.
+
+Concept:
+- Access is controlled by scopes (RH, TECH, FINANCE, etc.)
+
+Rules:
+- Each user has one or more scopes
+- Each document belongs to a scope
+- Users can only access their scopes
+
+Important:
+- Never mix roles and scopes
+- Always enforce scope-based access 
