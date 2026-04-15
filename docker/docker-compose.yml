@@ -1,3 +1,5 @@
+name: orkestria
+
 services:
 
   # ─── Backend PHP-FPM ──────────────────────────────────────────────────────
