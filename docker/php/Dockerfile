@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 RUN apk add --no-cache \
     git \
@@ -26,5 +26,6 @@ WORKDIR /var/www/html
 
 COPY backend/ .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction \
+RUN git config --global --add safe.directory /var/www/html \
+    && composer install --no-dev --optimize-autoloader --no-interaction \
     && chown -R www-data:www-data /var/www/html/var
