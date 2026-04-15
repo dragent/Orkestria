@@ -22,6 +22,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
 
+ENV APP_ENV=prod
+
 WORKDIR /var/www/html
 
 COPY backend/ .
