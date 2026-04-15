@@ -1,1 +1,4 @@
 samplePrompt.md
+
+# Docker secrets
+docker/.env
