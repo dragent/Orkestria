@@ -1,0 +1,10 @@
+services:
+
+  database:
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+
+  mailer:
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI → http://localhost:8025

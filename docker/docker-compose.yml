@@ -1,0 +1,90 @@
+services:
+
+  # ─── Backend PHP-FPM ──────────────────────────────────────────────────────
+  php:
+    build:
+      context: ..
+      dockerfile: docker/php/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ../backend:/var/www/html
+      - ../backend/var:/var/www/html/var
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}?serverVersion=16&charset=utf8
+      MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
+      MAILER_DSN: smtp://mailer:1025
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - orkestria
+
+  # ─── Nginx ────────────────────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-8080}:80"
+    volumes:
+      - ../backend/public:/var/www/html/public:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - php
+    networks:
+      - orkestria
+
+  # ─── Frontend Next.js ─────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/frontend/Dockerfile
+      target: development
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:${BACKEND_PORT:-8080}/api
+    networks:
+      - orkestria
+
+  # ─── PostgreSQL ───────────────────────────────────────────────────────────
+  database:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}"]
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - orkestria
+
+  # ─── Mailer (dev) ─────────────────────────────────────────────────────────
+  mailer:
+    image: axllent/mailpit
+    restart: unless-stopped
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+      - orkestria
+
+volumes:
+  database_data:
+
+networks:
+  orkestria:
+    driver: bridge
