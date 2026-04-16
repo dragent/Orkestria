@@ -23,20 +23,20 @@ export default function AuthLayout({
 
         <div className="relative z-10 space-y-4">
           <h1 className="text-4xl font-bold text-white leading-tight">
-            Orchestrate your projects,{" "}
+            Orchestrez vos projets,{" "}
             <span className="bg-gradient-to-r from-brand-purple-light to-brand-blue bg-clip-text text-transparent">
-              effortlessly.
+              sans effort.
             </span>
           </h1>
           <p className="text-slate-400 text-lg leading-relaxed">
-            Manage clients, teams, subcontractors and financials — all in one platform.
+            Gérez clients, équipes, sous-traitants et finances — tout en une seule plateforme.
           </p>
         </div>
 
         <div className="relative z-10 flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
           <span className="text-slate-500 text-sm">
-            Secure • Multi-tenant • Role-based
+            Sécurisé • Multi-tenant • Contrôle par rôle
           </span>
         </div>
       </div>

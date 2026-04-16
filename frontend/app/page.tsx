@@ -8,8 +8,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
       </svg>
     ),
-    title: "End-to-end project management",
-    description: "From lead to invoice — track every step of your project pipeline in one place.",
+    title: "Gestion de projet complète",
+    description: "Du lead à la facture — suivez chaque étape de votre pipeline en un seul endroit.",
   },
   {
     icon: (
@@ -17,8 +17,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
-    title: "Multi-actor collaboration",
-    description: "Bring together your internal teams, subcontractors and clients with scoped access.",
+    title: "Collaboration multi-acteurs",
+    description: "Réunissez vos équipes internes, sous-traitants et clients avec des accès cloisonnés.",
   },
   {
     icon: (
@@ -26,8 +26,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
     ),
-    title: "Role-based access control",
-    description: "Every user sees only what they need. Scoped by domain: HR, Finance, Tech, Legal, Design.",
+    title: "Contrôle d'accès par rôle",
+    description: "Chaque utilisateur voit uniquement ce dont il a besoin, cloisonné par domaine : RH, Finance, Tech, Legal, Design.",
   },
   {
     icon: (
@@ -35,8 +35,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    title: "Financial tracking",
-    description: "Generate quotes, issue invoices and monitor margins — all linked to your projects.",
+    title: "Suivi financier",
+    description: "Créez des devis, émettez des factures et surveillez vos marges, tout lié à vos projets.",
   },
   {
     icon: (
@@ -44,8 +44,8 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
       </svg>
     ),
-    title: "Smart document management",
-    description: "Upload, classify and retrieve documents automatically with AI-powered categorisation.",
+    title: "Gestion documentaire intelligente",
+    description: "Déposez, classifiez et retrouvez vos documents automatiquement grâce à l'IA.",
   },
   {
     icon: (
@@ -53,46 +53,43 @@ const features = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
       </svg>
     ),
-    title: "Real-time performance insights",
-    description: "Monitor your teams, track time and analyse profitability with live dashboards.",
+    title: "Analyse de performance en temps réel",
+    description: "Pilotez vos équipes, suivez le temps passé et analysez la rentabilité via des tableaux de bord live.",
   },
 ];
 
 const visions = [
   {
-    role: "Company",
+    role: "Entreprise",
     emoji: "🏢",
     color: "from-brand-navy to-brand-navy-light",
-    badge: "bg-brand-navy/10 text-brand-navy",
     items: [
-      "Manage clients, projects & employees",
-      "Assign subcontractors",
-      "Monitor costs and margins",
-      "Global dashboard",
+      "Gestion des clients, projets et employés",
+      "Assignation des sous-traitants",
+      "Suivi des coûts et marges",
+      "Tableau de bord global",
     ],
   },
   {
-    role: "Subcontractor",
+    role: "Sous-traitant",
     emoji: "🔧",
     color: "from-brand-purple to-brand-purple-light",
-    badge: "bg-brand-purple/10 text-brand-purple",
     items: [
-      "Access assigned projects",
-      "Scoped to your domain",
-      "Upload deliverables",
-      "Track your tasks",
+      "Accès aux projets assignés",
+      "Périmètre limité à votre domaine",
+      "Dépôt de livrables",
+      "Suivi de vos tâches",
     ],
   },
   {
     role: "Client",
     emoji: "👤",
     color: "from-brand-blue to-brand-blue-light",
-    badge: "bg-brand-blue/10 text-brand-blue",
     items: [
-      "Project timeline & status",
-      "Validate quotes",
-      "Access shared documents",
-      "Download invoices",
+      "Suivi du projet en temps réel",
+      "Validation des devis",
+      "Accès aux documents partagés",
+      "Téléchargement des factures",
     ],
   },
 ];
@@ -116,13 +113,13 @@ export default function LandingPage() {
               href="/login"
               className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-brand-navy transition"
             >
-              Sign in
+              Connexion
             </Link>
             <Link
               href="/register"
               className="px-4 py-2 text-sm font-semibold text-white rounded-lg bg-brand-purple hover:bg-brand-navy transition"
             >
-              Get started
+              Commencer
             </Link>
           </nav>
         </div>
@@ -130,7 +127,6 @@ export default function LandingPage() {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-navy">
-        {/* Background blobs */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-120px] right-[-120px] w-[500px] h-[500px] rounded-full bg-brand-purple opacity-20 blur-[120px]" />
           <div className="absolute bottom-[-80px] left-[-80px] w-[400px] h-[400px] rounded-full bg-brand-blue opacity-15 blur-[100px]" />
@@ -140,19 +136,19 @@ export default function LandingPage() {
         <div className="relative max-w-6xl mx-auto px-6 py-28 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/70 text-sm mb-8">
             <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
-            Multi-tenant SaaS — now in development
+            SaaS multi-tenant — en cours de développement
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-6">
-            Orchestrate your{" "}
+            Orchestrez vos{" "}
             <span className="bg-gradient-to-r from-brand-purple-light via-brand-blue to-brand-blue-light bg-clip-text text-transparent">
-              projects & teams
+              projets & équipes
             </span>
           </h1>
 
           <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Centralize collaboration between your company, subcontractors and clients.
-            From quote to invoice — everything in one place.
+            Centralisez la collaboration entre votre entreprise, vos sous-traitants et vos clients.
+            Du devis à la facture — tout en un seul endroit.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -160,13 +156,13 @@ export default function LandingPage() {
               href="/register"
               className="px-8 py-4 text-base font-semibold text-white rounded-xl bg-brand-purple hover:bg-brand-purple-light transition shadow-lg shadow-brand-purple/30"
             >
-              Start for free
+              Démarrer gratuitement
             </Link>
             <Link
               href="/login"
               className="px-8 py-4 text-base font-semibold text-white rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 transition"
             >
-              Sign in
+              Se connecter
             </Link>
           </div>
         </div>
@@ -177,10 +173,10 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-brand-navy mb-4">
-              Everything you need to run your business
+              Tout ce qu&apos;il faut pour piloter votre activité
             </h2>
             <p className="text-slate-500 text-lg max-w-xl mx-auto">
-              Purpose-built for project-driven companies working with external teams.
+              Conçu pour les entreprises orientées projet qui travaillent avec des équipes externes.
             </p>
           </div>
 
@@ -210,10 +206,10 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-brand-navy mb-4">
-              One platform, three perspectives
+              Une plateforme, trois perspectives
             </h2>
             <p className="text-slate-500 text-lg max-w-xl mx-auto">
-              Each actor gets a tailored experience designed for their role.
+              Chaque acteur dispose d&apos;une expérience adaptée à son rôle.
             </p>
           </div>
 
@@ -248,16 +244,16 @@ export default function LandingPage() {
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Ready to take control?
+            Prêt à reprendre le contrôle ?
           </h2>
           <p className="text-slate-400 text-lg mb-8">
-            Create your account in seconds and start managing your first project today.
+            Créez votre compte en quelques secondes et lancez votre premier projet dès aujourd&apos;hui.
           </p>
           <Link
             href="/register"
             className="inline-block px-10 py-4 text-base font-semibold text-white rounded-xl bg-brand-purple hover:bg-brand-purple-light transition shadow-lg shadow-brand-purple/40"
           >
-            Get started for free
+            Démarrer gratuitement
           </Link>
         </div>
       </section>
@@ -273,11 +269,11 @@ export default function LandingPage() {
             className="h-7 w-auto brightness-0 invert opacity-60"
           />
           <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} Orkestria. All rights reserved.
+            © {new Date().getFullYear()} Orkestria. Tous droits réservés.
           </p>
           <div className="flex gap-4 text-sm text-slate-500">
-            <Link href="/login" className="hover:text-white transition">Sign in</Link>
-            <Link href="/register" className="hover:text-white transition">Register</Link>
+            <Link href="/login" className="hover:text-white transition">Connexion</Link>
+            <Link href="/register" className="hover:text-white transition">Inscription</Link>
           </div>
         </div>
       </footer>

@@ -9,14 +9,14 @@ import { useRouter } from "next/navigation";
 import { authApi } from "@/lib/api";
 
 const registerSchema = z.object({
-  firstName: z.string().min(1, "First name is required").max(100),
-  lastName: z.string().min(1, "Last name is required").max(100),
-  email: z.string().email("Invalid email address"),
+  firstName: z.string().min(1, "Le prénom est requis").max(100),
+  lastName: z.string().min(1, "Le nom est requis").max(100),
+  email: z.string().email("Adresse e-mail invalide"),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
-    .regex(/[0-9]/, "Must contain at least one number"),
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
+    .regex(/[A-Z]/, "Doit contenir au moins une majuscule")
+    .regex(/[0-9]/, "Doit contenir au moins un chiffre"),
 });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -40,7 +40,7 @@ export default function RegisterPage() {
       router.push("/login?registered=1");
     } catch (err: unknown) {
       const apiError = err as { message?: string };
-      setServerError(apiError?.message ?? "Registration failed. Please try again.");
+          setServerError(apiError?.message ?? "L'inscription a échoué. Veuillez réessayer.");
     }
   }
 
@@ -52,8 +52,8 @@ export default function RegisterPage() {
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-3xl font-bold text-brand-navy">Create your account</h2>
-        <p className="text-slate-500">Start managing your projects today</p>
+        <h2 className="text-3xl font-bold text-brand-navy">Créer votre compte</h2>
+        <p className="text-slate-500">Commencez à gérer vos projets dès aujourd&apos;hui</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
@@ -66,7 +66,7 @@ export default function RegisterPage() {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <label htmlFor="firstName" className="block text-sm font-medium text-slate-700">
-              First name
+              Prénom
             </label>
             <input
               id="firstName"
@@ -87,7 +87,7 @@ export default function RegisterPage() {
 
           <div className="space-y-1.5">
             <label htmlFor="lastName" className="block text-sm font-medium text-slate-700">
-              Last name
+              Nom
             </label>
             <input
               id="lastName"
@@ -109,7 +109,7 @@ export default function RegisterPage() {
 
         <div className="space-y-1.5">
           <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-            Email address
+            Adresse e-mail
           </label>
           <input
             id="email"
@@ -130,7 +130,7 @@ export default function RegisterPage() {
 
         <div className="space-y-1.5">
           <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-            Password
+            Mot de passe
           </label>
           <input
             id="password"
@@ -142,7 +142,7 @@ export default function RegisterPage() {
                 ? "border-red-400 bg-red-50"
                 : "border-slate-300 bg-white hover:border-slate-400"
             }`}
-            placeholder="Min. 8 chars, 1 uppercase, 1 number"
+            placeholder="Min. 8 car., 1 majuscule, 1 chiffre"
           />
           {errors.password && (
             <p className="text-xs text-red-600">{errors.password.message}</p>
@@ -154,17 +154,17 @@ export default function RegisterPage() {
           disabled={isSubmitting}
           className="w-full rounded-lg bg-brand-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-navy disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Creating account…" : "Create account"}
+          {isSubmitting ? "Création du compte…" : "Créer mon compte"}
         </button>
       </form>
 
       <p className="text-center text-sm text-slate-500">
-        Already have an account?{" "}
+        Déjà un compte ?{" "}
         <Link
           href="/login"
           className="font-medium text-brand-purple hover:text-brand-navy transition"
         >
-          Sign in
+          Se connecter
         </Link>
       </p>
     </div>

@@ -10,8 +10,8 @@ import { authApi } from "@/lib/api";
 import { setToken } from "@/lib/auth";
 
 const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
+  email: z.string().email("Adresse e-mail invalide"),
+  password: z.string().min(1, "Le mot de passe est requis"),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -36,7 +36,7 @@ export default function LoginPage() {
       router.push("/dashboard");
     } catch (err: unknown) {
       const apiError = err as { message?: string };
-      setServerError(apiError?.message ?? "Invalid credentials. Please try again.");
+          setServerError(apiError?.message ?? "Identifiants invalides. Veuillez réessayer.");
     }
   }
 
@@ -48,8 +48,8 @@ export default function LoginPage() {
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-3xl font-bold text-brand-navy">Welcome back</h2>
-        <p className="text-slate-500">Sign in to your Orkestria account</p>
+        <h2 className="text-3xl font-bold text-brand-navy">Bon retour</h2>
+        <p className="text-slate-500">Connectez-vous à votre espace Orkestria</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
         <div className="space-y-1.5">
           <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-            Email address
+            Adresse e-mail
           </label>
           <input
             id="email"
@@ -83,7 +83,7 @@ export default function LoginPage() {
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-              Password
+              Mot de passe
             </label>
           </div>
           <input
@@ -108,17 +108,17 @@ export default function LoginPage() {
           disabled={isSubmitting}
           className="w-full rounded-lg bg-brand-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-navy disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Signing in…" : "Sign in"}
+          {isSubmitting ? "Connexion…" : "Se connecter"}
         </button>
       </form>
 
       <p className="text-center text-sm text-slate-500">
-        No account yet?{" "}
+        Pas encore de compte ?{" "}
         <Link
           href="/register"
           className="font-medium text-brand-purple hover:text-brand-navy transition"
         >
-          Create one
+          En créer un
         </Link>
       </p>
     </div>
