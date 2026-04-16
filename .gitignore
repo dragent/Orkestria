@@ -2,3 +2,7 @@ samplePrompt.md
 
 # Docker secrets
 docker/.env
+
+# JWT keys (generated locally, never commit)
+backend/config/jwt/private.pem
+backend/config/jwt/public.pem
