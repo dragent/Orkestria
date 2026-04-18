@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Security\Voter\UserVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,6 @@ final class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'get', methods: ['GET'], requirements: ['id' => '\d+'], priority: 5)]
-    #[IsGranted('ROLE_ADMIN')]
     public function getById(int $id): JsonResponse
     {
         $user = $this->userRepository->find($id);
@@ -39,6 +39,8 @@ final class UserController extends AbstractController
         if ($user === null) {
             return $this->json(['message' => 'User not found.'], Response::HTTP_NOT_FOUND);
         }
+
+        $this->denyAccessUnlessGranted(UserVoter::VIEW, $user);
 
         $json = $this->serializer->serialize($user, 'json', ['groups' => ['user:read']]);
 
@@ -53,6 +55,8 @@ final class UserController extends AbstractController
         if ($user === null) {
             return $this->json(['message' => 'User not found.'], Response::HTTP_NOT_FOUND);
         }
+
+        $this->denyAccessUnlessGranted(UserVoter::VIEW, $user);
 
         $json = $this->serializer->serialize($user, 'json', ['groups' => ['user:read']]);
 

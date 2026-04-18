@@ -12,8 +12,8 @@ Statuts : ✅ Terminé · 🔄 En cours · ⬜ À faire
 - ✅ Mot de passe oublié / réinitialisation
 - ✅ `UserChecker` (compte inactif, email non vérifié)
 - ✅ Rôles `ROLE_ADMIN`, `ROLE_USER` (base)
-- ⬜ Rôles `ROLE_SUBCONTRACTOR`, `ROLE_CLIENT` — onboarding & assignation
-- ⬜ Voters Symfony pour permissions fines par ressource
+- ✅ Rôles `ROLE_SUBCONTRACTOR`, `ROLE_CLIENT` — onboarding & assignation
+- ✅ Voters Symfony pour permissions fines par ressource
 
 ### Gestion des utilisateurs & entreprises
 - ✅ Entités `User` et `Company` avec migrations
@@ -23,7 +23,7 @@ Statuts : ✅ Terminé · 🔄 En cours · ⬜ À faire
 - ⬜ `POST /api/companies` — création d'entreprise
 - ⬜ `PATCH /api/companies/{id}` — mise à jour
 - ⬜ `POST /api/admin/users` — création manuelle d'utilisateur par l'admin
-- ⬜ `PATCH /api/admin/users/{id}` — modification de rôle / statut
+- ✅ `PATCH /api/admin/users/{id}` — modification de rôle / statut
 - ⬜ Assignation d'un utilisateur à une entreprise
 
 ### Frontend — Dashboard admin
