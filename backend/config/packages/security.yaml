@@ -17,6 +17,7 @@ security:
         login:
             pattern: ^/auth/login
             stateless: true
+            user_checker: App\Security\UserChecker
             json_login:
                 check_path: /auth/login
                 username_path: email
@@ -32,6 +33,9 @@ security:
     access_control:
         - { path: ^/auth/login, roles: PUBLIC_ACCESS }
         - { path: ^/auth/register, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/verify, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/forgot-password, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
