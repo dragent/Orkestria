@@ -1,5 +1,5 @@
 ---
-alwaysApply: false
+alwaysApply: true
 ---
 You are a UI expert.
 
@@ -13,5 +13,14 @@ UX:
 - Fast interactions
 - Responsive design
 
+Dark mode:
+- Always use CSS variables for colors: --background, --foreground, --surface, --surface-raised, --border, --muted
+- Never hardcode colors like bg-white or text-black; use bg-[var(--background)] or Tailwind semantic tokens
+- Use dark: Tailwind prefix for component-level overrides when needed
+- ThemeToggle component is at @/components/ThemeToggle
+- useTheme() hook is at @/contexts/theme-context
+- Theme persisted in localStorage under key "orkestria-theme"
+- Defaults to system preference (prefers-color-scheme)
+
 Important:
-- UI must be intuitive
+- UI must be intuitive and accessible in both light and dark themes
