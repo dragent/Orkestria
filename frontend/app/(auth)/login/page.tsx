@@ -2,23 +2,32 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@/lib/zod-resolver";
 import { z } from "zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authApi } from "@/lib/api";
 import { setToken } from "@/lib/auth";
-
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { useLanguage } from "@/contexts/language-context";
+import { FlashBag } from "@/components/FlashBag";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const justRegistered = searchParams.get("registered") === "1";
+  const justVerified = searchParams.get("verified") === "1";
+  const verifyError = searchParams.get("verify_error") === "1";
+  const passwordReset = searchParams.get("password_reset") === "1";
   const [serverError, setServerError] = useState<string | null>(null);
+  const { t } = useLanguage();
+  const tl = t.login;
+
+  const loginSchema = z.object({
+    email: z.string().email(tl.invalidEmail),
+    password: z.string().min(1, tl.passwordRequired),
+  });
+
+  type LoginFormData = z.infer<typeof loginSchema>;
 
   const {
     register,
@@ -36,7 +45,12 @@ export default function LoginPage() {
       router.push("/dashboard");
     } catch (err: unknown) {
       const apiError = err as { message?: string };
-      setServerError(apiError?.message ?? "Invalid credentials. Please try again.");
+      const raw = apiError?.message;
+      if (raw === "email_not_verified") {
+        setServerError(tl.emailNotVerified);
+      } else {
+        setServerError(raw ?? tl.invalidCredentials);
+      }
     }
   }
 
@@ -48,20 +62,34 @@ export default function LoginPage() {
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-3xl font-bold text-brand-navy">Welcome back</h2>
-        <p className="text-slate-500">Sign in to your Orkestria account</p>
+        <h2 className="text-3xl font-bold text-brand-navy">{tl.title}</h2>
+        <p className="text-slate-500">{tl.subtitle}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+        {justRegistered && (
+          <FlashBag variant="success" message={tl.successMessage} />
+        )}
+
+        {justVerified && (
+          <FlashBag variant="success" message={tl.verifiedMessage} />
+        )}
+
+        {verifyError && (
+          <FlashBag variant="error" message={tl.verifyErrorMessage} />
+        )}
+
+        {passwordReset && (
+          <FlashBag variant="success" message={tl.passwordResetMessage} />
+        )}
+
         {serverError && (
-          <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
-            {serverError}
-          </div>
+          <FlashBag variant="error" message={serverError} />
         )}
 
         <div className="space-y-1.5">
           <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-            Email address
+            {tl.emailLabel}
           </label>
           <input
             id="email"
@@ -73,7 +101,7 @@ export default function LoginPage() {
                 ? "border-red-400 bg-red-50"
                 : "border-slate-300 bg-white hover:border-slate-400"
             }`}
-            placeholder="you@company.com"
+            placeholder={tl.emailPlaceholder}
           />
           {errors.email && (
             <p className="text-xs text-red-600">{errors.email.message}</p>
@@ -83,8 +111,14 @@ export default function LoginPage() {
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-              Password
+              {tl.passwordLabel}
             </label>
+            <Link
+              href="/forgot-password"
+              className="text-xs font-medium text-brand-purple hover:text-brand-navy transition"
+            >
+              {tl.forgotPassword}
+            </Link>
           </div>
           <input
             id="password"
@@ -108,17 +142,17 @@ export default function LoginPage() {
           disabled={isSubmitting}
           className="w-full rounded-lg bg-brand-purple px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-navy disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Signing in…" : "Sign in"}
+          {isSubmitting ? tl.submitLoading : tl.submit}
         </button>
       </form>
 
       <p className="text-center text-sm text-slate-500">
-        No account yet?{" "}
+        {tl.noAccount}{" "}
         <Link
           href="/register"
           className="font-medium text-brand-purple hover:text-brand-navy transition"
         >
-          Create one
+          {tl.createOne}
         </Link>
       </p>
     </div>
