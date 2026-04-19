@@ -51,10 +51,15 @@ class Company
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company', cascade: ['persist'])]
     private Collection $users;
 
+    /** @var Collection<int, Client> */
+    #[ORM\OneToMany(targetEntity: Client::class, mappedBy: 'company', orphanRemoval: true)]
+    private Collection $clients;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->users = new ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,5 +121,11 @@ class Company
         }
 
         return $this;
+    }
+
+    /** @return Collection<int, Client> */
+    public function getClients(): Collection
+    {
+        return $this->clients;
     }
 }

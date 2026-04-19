@@ -37,6 +37,31 @@ async function apiFetchAuth<T>(path: string, options?: RequestInit): Promise<T> 
   });
 }
 
+async function apiFetchAuthNoContent(path: string, options?: RequestInit): Promise<void> {
+  const token = getToken();
+  const response = await fetch(`${API_URL}${path}`, {
+    headers: {
+      Accept: "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options?.headers,
+    },
+    ...options,
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    let err: ApiError = { message: "Request failed." };
+    if (text) {
+      try {
+        err = JSON.parse(text) as ApiError;
+      } catch {
+        err = { message: text };
+      }
+    }
+    throw err;
+  }
+}
+
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 
 export type LoginPayload = {
@@ -173,4 +198,86 @@ export const companiesApi = {
       method: "PATCH",
       body: JSON.stringify(body),
     }),
+};
+
+// ─── Clients & projects (phase 2) ────────────────────────────────────────────
+
+export type ProjectPipelineStage = "lead" | "quote" | "production" | "delivery" | "invoiced";
+
+export type ApiClient = {
+  id: number;
+  name: string;
+  email: string;
+  company: { id: number; name: string; slug: string };
+  createdAt: string;
+};
+
+export type ApiProject = {
+  id: number;
+  title: string;
+  pipelineStage: ProjectPipelineStage;
+  client: ApiClient;
+  startDate: string | null;
+  endDate: string | null;
+  createdAt: string;
+};
+
+export const clientsApi = {
+  list: () => apiFetchAuth<ApiClient[]>("/api/clients"),
+  get: (id: number) => apiFetchAuth<ApiClient>(`/api/clients/${id}`),
+  create: (body: { name: string; email: string; companyId: number }) =>
+    apiFetchAuth<ApiClient>("/api/clients", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  update: (id: number, body: { name?: string; email?: string; companyId?: number }) =>
+    apiFetchAuth<ApiClient>(`/api/clients/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+  delete: (id: number) => apiFetchAuthNoContent(`/api/clients/${id}`, { method: "DELETE" }),
+};
+
+export type ProjectListParams = {
+  q?: string;
+  pipeline?: ProjectPipelineStage;
+  clientId?: number;
+};
+
+export const projectsApi = {
+  list: (params?: ProjectListParams) => {
+    const sp = new URLSearchParams();
+    if (params?.q) sp.set("q", params.q);
+    if (params?.pipeline) sp.set("pipeline", params.pipeline);
+    if (params?.clientId != null) sp.set("clientId", String(params.clientId));
+    const q = sp.toString();
+    return apiFetchAuth<ApiProject[]>(`/api/projects${q ? `?${q}` : ""}`);
+  },
+  get: (id: number) => apiFetchAuth<ApiProject>(`/api/projects/${id}`),
+  create: (body: {
+    title: string;
+    clientId: number;
+    pipelineStage?: ProjectPipelineStage;
+    startDate?: string | null;
+    endDate?: string | null;
+  }) =>
+    apiFetchAuth<ApiProject>("/api/projects", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  update: (
+    id: number,
+    body: {
+      title?: string;
+      clientId?: number;
+      pipelineStage?: ProjectPipelineStage;
+      startDate?: string | null;
+      endDate?: string | null;
+    }
+  ) =>
+    apiFetchAuth<ApiProject>(`/api/projects/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+  delete: (id: number) => apiFetchAuthNoContent(`/api/projects/${id}`, { method: "DELETE" }),
 };

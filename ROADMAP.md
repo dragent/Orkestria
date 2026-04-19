@@ -44,22 +44,22 @@ Statuts : ✅ Terminé · 🔄 En cours · ⬜ À faire
 
 ---
 
-## Phase 2 — Projets & Clients
+## Phase 2 — Projets & Clients _(branche `feat/roadmap-phase-2`)_
 
 ### Backend
-- ⬜ Entité `Client` (nom, email, entreprise liée)
-- ⬜ Entité `Project` (titre, statut, pipeline, client, dates)
-- ⬜ CRUD complet `Client` avec contrôle d'accès admin
-- ⬜ CRUD complet `Project` avec contrôle d'accès admin
-- ⬜ Pipeline projet : `lead → devis → production → livraison → facturé`
-- ⬜ Endpoint de recherche / filtrage projets
+- ✅ Entité `Client` (nom, email, entreprise liée)
+- ✅ Entité `Project` (titre, statut, pipeline, client, dates)
+- ✅ CRUD complet `Client` avec contrôle d'accès admin
+- ✅ CRUD complet `Project` avec contrôle d'accès admin
+- ✅ Pipeline projet : `lead → devis → production → livraison → facturé`
+- ✅ Endpoint de recherche / filtrage projets
 
 ### Frontend
-- ⬜ Page listing clients + formulaire création/édition
-- ⬜ Page listing projets + formulaire création/édition
-- ⬜ Vue détail projet (infos, statut, timeline)
-- ⬜ Changement de statut du pipeline (drag or select)
-- ⬜ Dashboard mis à jour avec métriques projets
+- ✅ Page listing clients + formulaire création/édition
+- ✅ Page listing projets + formulaire création/édition
+- ✅ Vue détail projet (infos, statut, timeline)
+- ✅ Changement de statut du pipeline (drag or select)
+- ✅ Dashboard mis à jour avec métriques projets
 
 ---
 

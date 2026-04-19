@@ -2,10 +2,16 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  clientsApi,
   companiesApi,
   meApi,
+  projectsApi,
   usersApi,
+  type ApiClient,
+  type ApiProject,
   type Company,
+  type ProjectListParams,
+  type ProjectPipelineStage,
   type User,
 } from "@/lib/api";
 import { useAuthStore } from "@/lib/stores/auth-store";
@@ -103,6 +109,96 @@ export function useAdminUpdateUserMutation(userId: number) {
       void queryClient.invalidateQueries({ queryKey: ["users"] });
       void queryClient.invalidateQueries({ queryKey: ["users", data.id] });
       void queryClient.invalidateQueries({ queryKey: ["me"] });
+    },
+  });
+}
+
+export function useClientsQuery() {
+  const sessionRevision = useAuthStore((s) => s.sessionRevision);
+  return useQuery({
+    queryKey: ["clients", sessionRevision] as const,
+    queryFn: () => clientsApi.list(),
+  });
+}
+
+export function useClientQuery(id: number | undefined) {
+  const sessionRevision = useAuthStore((s) => s.sessionRevision);
+  return useQuery({
+    queryKey: ["clients", id, sessionRevision] as const,
+    queryFn: () => clientsApi.get(id!),
+    enabled: id != null && Number.isFinite(id),
+  });
+}
+
+export function useCreateClientMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { name: string; email: string; companyId: number }) => clientsApi.create(body),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["clients"] });
+    },
+  });
+}
+
+export function useUpdateClientMutation(clientId: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { name?: string; email?: string; companyId?: number }) =>
+      clientsApi.update(clientId, body),
+    onSuccess: (data: ApiClient) => {
+      void queryClient.invalidateQueries({ queryKey: ["clients"] });
+      void queryClient.invalidateQueries({ queryKey: ["clients", data.id] });
+      void queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
+}
+
+export function useProjectsQuery(params?: ProjectListParams) {
+  const sessionRevision = useAuthStore((s) => s.sessionRevision);
+  return useQuery({
+    queryKey: ["projects", params ?? {}, sessionRevision] as const,
+    queryFn: () => projectsApi.list(params),
+  });
+}
+
+export function useProjectQuery(id: number | undefined) {
+  const sessionRevision = useAuthStore((s) => s.sessionRevision);
+  return useQuery({
+    queryKey: ["projects", id, sessionRevision] as const,
+    queryFn: () => projectsApi.get(id!),
+    enabled: id != null && Number.isFinite(id),
+  });
+}
+
+export function useCreateProjectMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: {
+      title: string;
+      clientId: number;
+      pipelineStage?: ProjectPipelineStage;
+      startDate?: string | null;
+      endDate?: string | null;
+    }) => projectsApi.create(body),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
+}
+
+export function useUpdateProjectMutation(projectId: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (body: {
+      title?: string;
+      clientId?: number;
+      pipelineStage?: ProjectPipelineStage;
+      startDate?: string | null;
+      endDate?: string | null;
+    }) => projectsApi.update(projectId, body),
+    onSuccess: (data: ApiProject) => {
+      void queryClient.invalidateQueries({ queryKey: ["projects"] });
+      void queryClient.invalidateQueries({ queryKey: ["projects", data.id] });
     },
   });
 }

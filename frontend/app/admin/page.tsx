@@ -3,22 +3,24 @@
 import Link from "next/link";
 import { FlashBag } from "@/components/FlashBag";
 import { useLanguage } from "@/contexts/language-context";
-import { useCompaniesQuery, useUsersQuery } from "@/lib/hooks/queries";
+import { useCompaniesQuery, useProjectsQuery, useUsersQuery } from "@/lib/hooks/queries";
 import type { User } from "@/lib/api";
 
 type Stats = {
   totalUsers: number;
   activeUsers: number;
   totalCompanies: number;
+  totalProjects: number;
 };
 
 export default function AdminHomePage() {
   const { data: users = [], isLoading: usersLoading, isError: usersError } = useUsersQuery();
   const { data: companies = [], isLoading: companiesLoading, isError: companiesError } = useCompaniesQuery();
+  const { data: projects = [], isLoading: projectsLoading, isError: projectsError } = useProjectsQuery();
   const { t, lang } = useLanguage();
   const td = t.dashboard;
 
-  const loading = usersLoading || companiesLoading;
+  const loading = usersLoading || companiesLoading || projectsLoading;
 
   const stats: Stats | null = loading
     ? null
@@ -26,13 +28,14 @@ export default function AdminHomePage() {
         totalUsers: users.length,
         activeUsers: users.filter((u) => u.isActive).length,
         totalCompanies: companies.length,
+        totalProjects: projects.length,
       };
 
   const recentUsers: User[] = [...users]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
-  const serverError = usersError || companiesError ? td.loadError : null;
+  const serverError = usersError || companiesError || projectsError ? td.loadError : null;
   const dateLocale = lang === "fr" ? "fr-FR" : "en-GB";
 
   return (
@@ -44,7 +47,7 @@ export default function AdminHomePage() {
 
       {serverError && <FlashBag variant="error" message={serverError} />}
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label={td.totalUsers}
           value={stats?.totalUsers}
@@ -76,6 +79,17 @@ export default function AdminHomePage() {
             </svg>
           }
           href="/admin/companies"
+        />
+        <StatCard
+          label={td.totalProjects}
+          value={stats?.totalProjects}
+          loading={loading}
+          icon={
+            <svg className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v17.25m0 0h16.5m-16.5 0h7.125c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125H3.75m9 0h3.375c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125H3.75m0 0h7.125" />
+            </svg>
+          }
+          href="/admin/projects"
         />
       </div>
 

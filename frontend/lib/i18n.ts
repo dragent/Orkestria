@@ -121,6 +121,8 @@ export type Translations = {
     dashboard: string;
     users: string;
     companies: string;
+    clients: string;
+    projects: string;
     profile: string;
     signOut: string;
   };
@@ -157,6 +159,7 @@ export type Translations = {
     totalUsers: string;
     activeUsers: string;
     companies: string;
+    totalProjects: string;
     recentUsers: string;
     viewAll: string;
     noUsers: string;
@@ -209,6 +212,47 @@ export type Translations = {
     colRole: string;
     colStatus: string;
     loadError: string;
+  };
+  clients: {
+    title: string;
+    subtitle: string;
+    colName: string;
+    colEmail: string;
+    colCompany: string;
+    add: string;
+    newTitle: string;
+    loadError: string;
+    none: string;
+    back: string;
+  };
+  projects: {
+    title: string;
+    subtitle: string;
+    colTitle: string;
+    colClient: string;
+    colPipeline: string;
+    colCreated: string;
+    filterSearch: string;
+    filterPipeline: string;
+    allPipelines: string;
+    add: string;
+    newTitle: string;
+    loadError: string;
+    none: string;
+    back: string;
+  };
+  projectDetail: {
+    dates: string;
+    start: string;
+    end: string;
+    pipeline: string;
+  };
+  pipeline: {
+    lead: string;
+    quote: string;
+    production: string;
+    delivery: string;
+    invoiced: string;
   };
 };
 
@@ -354,6 +398,8 @@ export const translations: Record<Language, Translations> = {
       dashboard: "Tableau de bord",
       users: "Utilisateurs",
       companies: "Entreprises",
+      clients: "Clients",
+      projects: "Projets",
       profile: "Mon profil",
       signOut: "Se déconnecter",
     },
@@ -363,6 +409,7 @@ export const translations: Record<Language, Translations> = {
       totalUsers: "Total utilisateurs",
       activeUsers: "Utilisateurs actifs",
       companies: "Entreprises",
+      totalProjects: "Projets",
       recentUsers: "Utilisateurs récents",
       viewAll: "Voir tout",
       noUsers: "Aucun utilisateur trouvé.",
@@ -416,6 +463,47 @@ export const translations: Record<Language, Translations> = {
       colRole: "Rôle",
       colStatus: "Statut",
       loadError: "Échec du chargement de l'entreprise.",
+    },
+    clients: {
+      title: "Clients",
+      subtitle: "Contacts rattachés à une entreprise",
+      colName: "Nom",
+      colEmail: "E-mail",
+      colCompany: "Entreprise",
+      add: "Ajouter un client",
+      newTitle: "Nouveau client",
+      loadError: "Impossible de charger les clients.",
+      none: "Aucun client.",
+      back: "Clients",
+    },
+    projects: {
+      title: "Projets",
+      subtitle: "Pipeline et suivi",
+      colTitle: "Projet",
+      colClient: "Client",
+      colPipeline: "Étape",
+      colCreated: "Créé le",
+      filterSearch: "Rechercher",
+      filterPipeline: "Étape",
+      allPipelines: "Toutes les étapes",
+      add: "Nouveau projet",
+      newTitle: "Nouveau projet",
+      loadError: "Impossible de charger les projets.",
+      none: "Aucun projet.",
+      back: "Projets",
+    },
+    projectDetail: {
+      dates: "Dates",
+      start: "Début",
+      end: "Fin",
+      pipeline: "Pipeline",
+    },
+    pipeline: {
+      lead: "Piste",
+      quote: "Devis",
+      production: "Production",
+      delivery: "Livraison",
+      invoiced: "Facturé",
     },
     adminForms: {
       newCompany: "Nouvelle entreprise",
@@ -589,6 +677,8 @@ export const translations: Record<Language, Translations> = {
       dashboard: "Dashboard",
       users: "Users",
       companies: "Companies",
+      clients: "Clients",
+      projects: "Projects",
       profile: "My profile",
       signOut: "Sign out",
     },
@@ -598,6 +688,7 @@ export const translations: Record<Language, Translations> = {
       totalUsers: "Total Users",
       activeUsers: "Active Users",
       companies: "Companies",
+      totalProjects: "Projects",
       recentUsers: "Recent Users",
       viewAll: "View all",
       noUsers: "No users found.",
@@ -651,6 +742,47 @@ export const translations: Record<Language, Translations> = {
       colRole: "Role",
       colStatus: "Status",
       loadError: "Failed to load company.",
+    },
+    clients: {
+      title: "Clients",
+      subtitle: "Contacts linked to a company",
+      colName: "Name",
+      colEmail: "Email",
+      colCompany: "Company",
+      add: "Add client",
+      newTitle: "New client",
+      loadError: "Failed to load clients.",
+      none: "No clients yet.",
+      back: "Clients",
+    },
+    projects: {
+      title: "Projects",
+      subtitle: "Pipeline and tracking",
+      colTitle: "Project",
+      colClient: "Client",
+      colPipeline: "Stage",
+      colCreated: "Created",
+      filterSearch: "Search",
+      filterPipeline: "Stage",
+      allPipelines: "All stages",
+      add: "New project",
+      newTitle: "New project",
+      loadError: "Failed to load projects.",
+      none: "No projects yet.",
+      back: "Projects",
+    },
+    projectDetail: {
+      dates: "Dates",
+      start: "Start",
+      end: "End",
+      pipeline: "Pipeline",
+    },
+    pipeline: {
+      lead: "Lead",
+      quote: "Quote",
+      production: "Production",
+      delivery: "Delivery",
+      invoiced: "Invoiced",
     },
     adminForms: {
       newCompany: "New company",
