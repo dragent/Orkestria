@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\DocumentScope;
 use App\Entity\User;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
@@ -95,6 +96,11 @@ final class AdminUserController extends AbstractController
             return $companyResponse;
         }
 
+        $scopesResponse = $this->applyDocumentScopes($user, $data['documentScopes'] ?? null);
+        if ($scopesResponse !== null) {
+            return $scopesResponse;
+        }
+
         $violations = $this->validator->validate($user);
         if (\count($violations) > 0) {
             $errors = [];
@@ -161,6 +167,13 @@ final class AdminUserController extends AbstractController
             }
         }
 
+        if (array_key_exists('documentScopes', $data)) {
+            $scopesResponse = $this->applyDocumentScopes($user, $data['documentScopes']);
+            if ($scopesResponse !== null) {
+                return $scopesResponse;
+            }
+        }
+
         $this->entityManager->flush();
 
         $json = $this->serializer->serialize($user, 'json', ['groups' => ['user:read']]);
@@ -188,6 +201,37 @@ final class AdminUserController extends AbstractController
         }
 
         $user->setCompany($company);
+
+        return null;
+    }
+
+    private function applyDocumentScopes(User $user, mixed $raw): ?JsonResponse
+    {
+        if ($raw === null) {
+            return null;
+        }
+
+        if (!is_array($raw)) {
+            return $this->json(['message' => 'Field "documentScopes" must be an array of scope strings.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $allowed = array_map(static fn (DocumentScope $s) => $s->value, DocumentScope::cases());
+        $normalized = [];
+        foreach ($raw as $item) {
+            if (!is_string($item)) {
+                return $this->json(['message' => 'Each document scope must be a string.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            try {
+                $normalized[] = DocumentScope::from($item)->value;
+            } catch (\ValueError) {
+                return $this->json([
+                    'message' => 'Invalid document scope: ' . $item,
+                    'allowed' => $allowed,
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
+
+        $user->setDocumentScopes($normalized);
 
         return null;
     }

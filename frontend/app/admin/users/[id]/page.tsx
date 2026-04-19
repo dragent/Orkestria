@@ -26,6 +26,11 @@ const adminSchema = z.object({
   roleSubcontractor: z.boolean(),
   isActive: z.boolean(),
   companyId: z.string(),
+  scopeRh: z.boolean(),
+  scopeTech: z.boolean(),
+  scopeFinance: z.boolean(),
+  scopeDesign: z.boolean(),
+  scopeLegal: z.boolean(),
 });
 
 type AdminForm = z.infer<typeof adminSchema>;
@@ -56,17 +61,28 @@ export default function AdminUserDetailPage() {
       roleSubcontractor: false,
       isActive: true,
       companyId: "",
+      scopeRh: false,
+      scopeTech: false,
+      scopeFinance: false,
+      scopeDesign: false,
+      scopeLegal: false,
     },
   });
 
   useEffect(() => {
     if (!user) return;
+    const ds = user.documentScopes ?? [];
     reset({
       roleAdmin: user.roles.includes("ROLE_ADMIN"),
       roleClient: user.roles.includes("ROLE_CLIENT"),
       roleSubcontractor: user.roles.includes("ROLE_SUBCONTRACTOR"),
       isActive: user.isActive,
       companyId: user.company ? String(user.company.id) : "",
+      scopeRh: ds.includes("rh"),
+      scopeTech: ds.includes("tech"),
+      scopeFinance: ds.includes("finance"),
+      scopeDesign: ds.includes("design"),
+      scopeLegal: ds.includes("legal"),
     });
   }, [user, reset]);
 
@@ -81,11 +97,19 @@ export default function AdminUserDetailPage() {
     const companyId =
       data.companyId === "" ? null : Number.parseInt(data.companyId, 10);
 
+    const documentScopes: string[] = [];
+    if (data.scopeRh) documentScopes.push("rh");
+    if (data.scopeTech) documentScopes.push("tech");
+    if (data.scopeFinance) documentScopes.push("finance");
+    if (data.scopeDesign) documentScopes.push("design");
+    if (data.scopeLegal) documentScopes.push("legal");
+
     try {
       await updateMutation.mutateAsync({
         roles,
         isActive: data.isActive,
         companyId: companyId !== null && Number.isFinite(companyId) ? companyId : null,
+        documentScopes,
       });
       setSaveOk(true);
     } catch (err: unknown) {
@@ -193,13 +217,37 @@ export default function AdminUserDetailPage() {
                   <input type="checkbox" {...register("roleClient")} />
                   Client
                 </label>
-                <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                  <input type="checkbox" {...register("roleSubcontractor")} />
-                  Subcontractor
-                </label>
-              </fieldset>
-
               <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
+                <input type="checkbox" {...register("roleSubcontractor")} />
+                Subcontractor
+              </label>
+            </fieldset>
+
+            <fieldset className="space-y-2">
+              <legend className="text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.documentAccess}</legend>
+              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
+                <input type="checkbox" {...register("scopeRh")} />
+                RH
+              </label>
+              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
+                <input type="checkbox" {...register("scopeTech")} />
+                Tech
+              </label>
+              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
+                <input type="checkbox" {...register("scopeFinance")} />
+                Finance
+              </label>
+              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
+                <input type="checkbox" {...register("scopeDesign")} />
+                Design
+              </label>
+              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
+                <input type="checkbox" {...register("scopeLegal")} />
+                Legal
+              </label>
+            </fieldset>
+
+            <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
                 <input type="checkbox" {...register("isActive")} />
                 {t.active}
               </label>

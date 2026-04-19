@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -44,9 +46,14 @@ class Project
     #[Groups(['project:read'])]
     private \DateTimeImmutable $createdAt;
 
+    /** @var Collection<int, Document> */
+    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'project', orphanRemoval: true)]
+    private Collection $documents;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,5 +124,11 @@ class Project
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    /** @return Collection<int, Document> */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
     }
 }

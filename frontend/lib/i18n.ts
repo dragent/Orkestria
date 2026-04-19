@@ -146,6 +146,7 @@ export type Translations = {
     addUser: string;
     genericError: string;
     changesSaved: string;
+    documentAccess: string;
   };
   spaces: {
     clientTitle: string;
@@ -253,6 +254,22 @@ export type Translations = {
     production: string;
     delivery: string;
     invoiced: string;
+  };
+  documents: {
+    title: string;
+    upload: string;
+    scope: string;
+    file: string;
+    filterScope: string;
+    allScopes: string;
+    download: string;
+    none: string;
+    loadError: string;
+    scopeRh: string;
+    scopeTech: string;
+    scopeFinance: string;
+    scopeDesign: string;
+    scopeLegal: string;
   };
 };
 
@@ -505,6 +522,22 @@ export const translations: Record<Language, Translations> = {
       delivery: "Livraison",
       invoiced: "Facturé",
     },
+    documents: {
+      title: "Documents",
+      upload: "Envoyer",
+      scope: "Scope",
+      file: "Fichier",
+      filterScope: "Filtrer par scope",
+      allScopes: "Tous les scopes",
+      download: "Télécharger",
+      none: "Aucun document.",
+      loadError: "Impossible de charger les documents.",
+      scopeRh: "RH",
+      scopeTech: "Tech",
+      scopeFinance: "Finance",
+      scopeDesign: "Design",
+      scopeLegal: "Juridique",
+    },
     adminForms: {
       newCompany: "Nouvelle entreprise",
       editCompany: "Modifier l'entreprise",
@@ -525,6 +558,7 @@ export const translations: Record<Language, Translations> = {
       addUser: "Ajouter un utilisateur",
       genericError: "Une erreur est survenue.",
       changesSaved: "Modifications enregistrées.",
+      documentAccess: "Accès aux documents par scope",
     },
     spaces: {
       clientTitle: "Espace client",
@@ -784,6 +818,22 @@ export const translations: Record<Language, Translations> = {
       delivery: "Delivery",
       invoiced: "Invoiced",
     },
+    documents: {
+      title: "Documents",
+      upload: "Upload",
+      scope: "Scope",
+      file: "File",
+      filterScope: "Filter by scope",
+      allScopes: "All scopes",
+      download: "Download",
+      none: "No documents yet.",
+      loadError: "Failed to load documents.",
+      scopeRh: "HR",
+      scopeTech: "Tech",
+      scopeFinance: "Finance",
+      scopeDesign: "Design",
+      scopeLegal: "Legal",
+    },
     adminForms: {
       newCompany: "New company",
       editCompany: "Edit company",
@@ -804,6 +854,7 @@ export const translations: Record<Language, Translations> = {
       addUser: "Add user",
       genericError: "Something went wrong.",
       changesSaved: "Changes saved.",
+      documentAccess: "Document access by scope",
     },
     spaces: {
       clientTitle: "Client area",

@@ -20,14 +20,15 @@ final class MeController extends AbstractController
         $company = $user->getCompany();
 
         return $this->json([
-            'id'        => $user->getId(),
-            'email'     => $user->getEmail(),
-            'firstName' => $user->getFirstName(),
-            'lastName'  => $user->getLastName(),
-            'roles'     => $user->getRoles(),
-            'isActive'  => $user->isActive(),
-            'createdAt' => $user->getCreatedAt()->format(\DateTimeInterface::ATOM),
-            'company'   => $company ? ['id' => $company->getId(), 'name' => $company->getName()] : null,
+            'id'              => $user->getId(),
+            'email'           => $user->getEmail(),
+            'firstName'       => $user->getFirstName(),
+            'lastName'        => $user->getLastName(),
+            'roles'           => $user->getRoles(),
+            'isActive'        => $user->isActive(),
+            'createdAt'       => $user->getCreatedAt()->format(\DateTimeInterface::ATOM),
+            'company'         => $company ? ['id' => $company->getId(), 'name' => $company->getName()] : null,
+            'documentScopes'  => $user->getDocumentScopes(),
         ]);
     }
 }

@@ -4,12 +4,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   clientsApi,
   companiesApi,
+  documentsApi,
   meApi,
   projectsApi,
   usersApi,
   type ApiClient,
+  type ApiDocument,
   type ApiProject,
   type Company,
+  type DocumentScope,
   type ProjectListParams,
   type ProjectPipelineStage,
   type User,
@@ -104,6 +107,7 @@ export function useAdminUpdateUserMutation(userId: number) {
       roles?: string[];
       isActive?: boolean;
       companyId?: number | null;
+      documentScopes?: string[];
     }) => usersApi.adminUpdate(userId, body),
     onSuccess: (data: User) => {
       void queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -199,6 +203,26 @@ export function useUpdateProjectMutation(projectId: number) {
     onSuccess: (data: ApiProject) => {
       void queryClient.invalidateQueries({ queryKey: ["projects"] });
       void queryClient.invalidateQueries({ queryKey: ["projects", data.id] });
+    },
+  });
+}
+
+export function useProjectDocumentsQuery(projectId: number | undefined, scope?: DocumentScope) {
+  const sessionRevision = useAuthStore((s) => s.sessionRevision);
+  return useQuery({
+    queryKey: ["projects", projectId, "documents", scope ?? "all", sessionRevision] as const,
+    queryFn: () => documentsApi.listByProject(projectId!, scope),
+    enabled: projectId != null && Number.isFinite(projectId),
+  });
+}
+
+export function useUploadDocumentMutation(projectId: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (formData: FormData) => documentsApi.upload(projectId, formData),
+    onSuccess: (doc: ApiDocument) => {
+      void queryClient.invalidateQueries({ queryKey: ["projects", projectId, "documents"] });
+      void queryClient.invalidateQueries({ queryKey: ["projects", projectId] });
     },
   });
 }

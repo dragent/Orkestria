@@ -140,6 +140,7 @@ export type User = {
   company: { id: number; name: string } | null;
   createdAt: string;
   isActive: boolean;
+  documentScopes: string[];
 };
 
 export type AdminCreateUserPayload = {
@@ -155,6 +156,7 @@ export type AdminUpdateUserPayload = {
   roles?: string[];
   isActive?: boolean;
   companyId?: number | null;
+  documentScopes?: string[];
 };
 
 export const usersApi = {
@@ -280,4 +282,57 @@ export const projectsApi = {
       body: JSON.stringify(body),
     }),
   delete: (id: number) => apiFetchAuthNoContent(`/api/projects/${id}`, { method: "DELETE" }),
+};
+
+// ─── Documents (phase 3) ─────────────────────────────────────────────────────
+
+export type DocumentScope = "rh" | "tech" | "finance" | "design" | "legal";
+
+export type ApiDocument = {
+  id: number;
+  name: string;
+  type: string;
+  scope: DocumentScope;
+  createdAt: string;
+};
+
+export const DOCUMENT_SCOPES: DocumentScope[] = ["rh", "tech", "finance", "design", "legal"];
+
+export const documentsApi = {
+  listByProject: (projectId: number, scope?: DocumentScope) => {
+    const q = scope ? `?scope=${encodeURIComponent(scope)}` : "";
+    return apiFetchAuth<ApiDocument[]>(`/api/projects/${projectId}/documents${q}`);
+  },
+  upload: async (projectId: number, formData: FormData): Promise<ApiDocument> => {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/api/projects/${projectId}/documents`, {
+      method: "POST",
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: formData,
+    });
+    const data = (await response.json()) as unknown;
+    if (!response.ok) {
+      throw data as ApiError;
+    }
+    return data as ApiDocument;
+  },
+  downloadBlob: async (documentId: number): Promise<Blob> => {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/api/documents/${documentId}/download`, {
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+    if (!response.ok) {
+      try {
+        const err = await response.json();
+        throw err as ApiError;
+      } catch {
+        throw { message: "Download failed." } as ApiError;
+      }
+    }
+    return response.blob();
+  },
 };

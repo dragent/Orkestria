@@ -34,6 +34,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     private array $roles = [];
 
+    /**
+     * Document scope keys (e.g. rh, legal) the user may access for downloads.
+     *
+     * @var list<string>
+     */
+    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
+    #[Groups(['user:read'])]
+    private array $documentScopes = [];
+
     #[ORM\Column]
     private string $password;
 
@@ -84,6 +93,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->documentScopes = [];
     }
 
     public function getId(): ?int
@@ -262,6 +272,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetTokenExpiresAt(?\DateTimeImmutable $resetTokenExpiresAt): static
     {
         $this->resetTokenExpiresAt = $resetTokenExpiresAt;
+
+        return $this;
+    }
+
+    /** @return list<string> */
+    public function getDocumentScopes(): array
+    {
+        return $this->documentScopes;
+    }
+
+    /** @param list<string> $documentScopes */
+    public function setDocumentScopes(array $documentScopes): static
+    {
+        $this->documentScopes = array_values(array_unique($documentScopes));
 
         return $this;
     }

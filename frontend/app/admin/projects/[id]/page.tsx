@@ -11,6 +11,7 @@ import type { ProjectPipelineStage } from "@/lib/api";
 import { useLanguage } from "@/contexts/language-context";
 import { useClientsQuery, useProjectQuery, useUpdateProjectMutation } from "@/lib/hooks/queries";
 import { formatPipeline, PIPELINE_STAGES } from "@/lib/pipeline-label";
+import { ProjectDocumentsSection } from "./ProjectDocumentsSection";
 
 function toDateInput(iso: string | null): string {
   if (!iso) return "";
@@ -164,6 +165,8 @@ export default function AdminProjectDetailPage() {
               {isSubmitting ? tf.saving : tf.save}
             </button>
           </form>
+
+          <ProjectDocumentsSection projectId={projectId} />
         </>
       )}
     </div>

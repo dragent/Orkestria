@@ -63,20 +63,20 @@ Statuts : ✅ Terminé · 🔄 En cours · ⬜ À faire
 
 ---
 
-## Phase 3 — Documents & Scopes
+## Phase 3 — Documents & Scopes _(branche `feat/roadmap-phase-3`)_
 
 ### Backend
-- ⬜ Entité `Scope` (RH, TECH, FINANCE, DESIGN, LEGAL)
-- ⬜ Entité `Document` (nom, type, chemin fichier, scope, projet)
-- ⬜ Upload de fichiers (stockage local ou S3)
-- ⬜ Contrôle d'accès par scope (Voter Symfony)
-- ⬜ Endpoint listing documents par projet et par scope
+- ✅ Entité `DocumentScope` (RH, TECH, FINANCE, DESIGN, LEGAL)
+- ✅ Entité `Document` (nom, type, chemin fichier, scope, projet)
+- ✅ Upload de fichiers (stockage local sous `var/uploads`)
+- ✅ Contrôle d'accès par scope (`DocumentVoter` + `document_scopes` sur `User`)
+- ✅ Endpoint listing documents par projet et par scope
 
 ### Frontend
-- ⬜ Interface d'upload de documents
-- ⬜ Listing documents par projet avec filtre par scope
-- ⬜ Téléchargement de fichiers
-- ⬜ Restriction UI selon le scope de l'utilisateur connecté
+- ✅ Interface d'upload de documents (fiche projet)
+- ✅ Listing documents par projet avec filtre par scope
+- ✅ Téléchargement de fichiers
+- ✅ Scopes documentaires assignables côté admin (utilisateur) ; listing filtré côté API pour les non-admins
 
 ---
 
