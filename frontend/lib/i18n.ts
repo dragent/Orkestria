@@ -121,7 +121,35 @@ export type Translations = {
     dashboard: string;
     users: string;
     companies: string;
+    profile: string;
     signOut: string;
+  };
+  adminForms: {
+    newCompany: string;
+    editCompany: string;
+    companyName: string;
+    companySlug: string;
+    save: string;
+    saving: string;
+    newUser: string;
+    password: string;
+    rolesLabel: string;
+    companyAssignment: string;
+    noCompanyOption: string;
+    adminSettings: string;
+    saveUser: string;
+    createUser: string;
+    addCompany: string;
+    edit: string;
+    addUser: string;
+    genericError: string;
+    changesSaved: string;
+  };
+  spaces: {
+    clientTitle: string;
+    clientBody: string;
+    subcontractorTitle: string;
+    subcontractorBody: string;
   };
   dashboard: {
     title: string;
@@ -389,6 +417,35 @@ export const translations: Record<Language, Translations> = {
       colStatus: "Statut",
       loadError: "Échec du chargement de l'entreprise.",
     },
+    adminForms: {
+      newCompany: "Nouvelle entreprise",
+      editCompany: "Modifier l'entreprise",
+      companyName: "Nom",
+      companySlug: "Slug (lettres minuscules, chiffres, tirets)",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+      newUser: "Nouvel utilisateur",
+      password: "Mot de passe initial",
+      rolesLabel: "Rôles",
+      companyAssignment: "Entreprise",
+      noCompanyOption: "Aucune entreprise",
+      adminSettings: "Paramètres administrateur",
+      saveUser: "Mettre à jour l'utilisateur",
+      createUser: "Créer l'utilisateur",
+      addCompany: "Ajouter une entreprise",
+      edit: "Modifier",
+      addUser: "Ajouter un utilisateur",
+      genericError: "Une erreur est survenue.",
+      changesSaved: "Modifications enregistrées.",
+    },
+    spaces: {
+      clientTitle: "Espace client",
+      clientBody:
+        "Votre espace dédié arrive avec la phase projets et facturation. Revenez bientôt.",
+      subcontractorTitle: "Espace sous-traitant",
+      subcontractorBody:
+        "L'accès aux projets assignés et aux livrables sera disponible prochainement.",
+    },
   },
 
   en: {
@@ -594,6 +651,35 @@ export const translations: Record<Language, Translations> = {
       colRole: "Role",
       colStatus: "Status",
       loadError: "Failed to load company.",
+    },
+    adminForms: {
+      newCompany: "New company",
+      editCompany: "Edit company",
+      companyName: "Name",
+      companySlug: "Slug (lowercase letters, numbers, hyphens)",
+      save: "Save",
+      saving: "Saving…",
+      newUser: "New user",
+      password: "Initial password",
+      rolesLabel: "Roles",
+      companyAssignment: "Company",
+      noCompanyOption: "No company",
+      adminSettings: "Administrator settings",
+      saveUser: "Update user",
+      createUser: "Create user",
+      addCompany: "Add company",
+      edit: "Edit",
+      addUser: "Add user",
+      genericError: "Something went wrong.",
+      changesSaved: "Changes saved.",
+    },
+    spaces: {
+      clientTitle: "Client area",
+      clientBody:
+        "Your dedicated space will arrive with projects and billing. Check back soon.",
+      subcontractorTitle: "Subcontractor area",
+      subcontractorBody:
+        "Access to assigned projects and deliverables will be available in an upcoming release.",
     },
   },
 };

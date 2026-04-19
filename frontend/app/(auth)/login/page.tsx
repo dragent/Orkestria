@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@/lib/zod-resolver";
 import { z } from "zod";
@@ -8,10 +8,12 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authApi } from "@/lib/api";
 import { setToken } from "@/lib/auth";
+import { getRolesFromJwt, postLoginPath } from "@/lib/jwt-roles";
+import { useAuthStore } from "@/lib/stores/auth-store";
 import { useLanguage } from "@/contexts/language-context";
 import { FlashBag } from "@/components/FlashBag";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "1";
@@ -20,6 +22,7 @@ export default function LoginPage() {
   const passwordReset = searchParams.get("password_reset") === "1";
   const [serverError, setServerError] = useState<string | null>(null);
   const { t } = useLanguage();
+  const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
   const tl = t.login;
 
   const loginSchema = z.object({
@@ -42,7 +45,14 @@ export default function LoginPage() {
     try {
       const { token } = await authApi.login(data);
       setToken(token);
-      router.push("/dashboard");
+      notifyAuthChanged();
+      const next = searchParams.get("next");
+      if (next?.startsWith("/") && !next.startsWith("//")) {
+        router.push(next);
+        return;
+      }
+      const roles = getRolesFromJwt(token);
+      router.push(postLoginPath(roles));
     } catch (err: unknown) {
       const apiError = err as { message?: string };
       const raw = apiError?.message;
@@ -156,5 +166,19 @@ export default function LoginPage() {
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[200px] flex items-center justify-center">
+          <div className="h-8 w-8 rounded-full border-4 border-brand-purple border-t-transparent animate-spin" />
+        </div>
+      }
+    >
+      <LoginPageContent />
+    </Suspense>
   );
 }

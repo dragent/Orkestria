@@ -1,25 +1,29 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { getToken, removeToken } from "@/lib/auth";
-import { meApi, type User } from "@/lib/api";
+import { usePathname, useRouter } from "next/navigation";
+import LanguageToggle from "@/components/LanguageToggle";
 import { useLanguage } from "@/contexts/language-context";
 import { useTheme } from "@/contexts/theme-context";
-import LanguageToggle from "@/components/LanguageToggle";
+import { useMeQuery } from "@/lib/hooks/queries";
+import { getToken, removeToken } from "@/lib/auth";
+import { useAuthStore } from "@/lib/stores/auth-store";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
+  const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
   const [ready, setReady] = useState(false);
-  const [me, setMe] = useState<User | null>(null);
+  const { data: me, isLoading: meLoading, isError: meError } = useMeQuery();
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
 
   const NAV_ITEMS = [
     {
-      href: "/dashboard",
+      href: "/admin",
       label: t.nav.dashboard,
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
@@ -28,7 +32,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       ),
     },
     {
-      href: "/dashboard/users",
+      href: "/admin/users",
       label: t.nav.users,
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
@@ -37,7 +41,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       ),
     },
     {
-      href: "/dashboard/companies",
+      href: "/admin/companies",
       label: t.nav.companies,
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
@@ -52,12 +56,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       router.replace("/login");
       return;
     }
-    setReady(true);
-    meApi.get().then(setMe).catch(() => {});
-  }, [router]);
+    if (meError) {
+      removeToken();
+      notifyAuthChanged();
+      queryClient.clear();
+      router.replace("/login");
+      return;
+    }
+    if (!meLoading && me) {
+      setReady(true);
+    }
+  }, [router, meError, meLoading, me, notifyAuthChanged, queryClient]);
 
   function handleLogout() {
     removeToken();
+    notifyAuthChanged();
+    queryClient.clear();
     router.push("/login");
   }
 
@@ -71,9 +85,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-zinc-950">
-      {/* Sidebar */}
       <aside className="w-64 shrink-0 bg-brand-navy dark:bg-zinc-900 flex flex-col border-r border-transparent dark:border-zinc-800">
-        {/* Logo */}
         <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
           <img src="/img/logo.png" alt="Orkestria" className="h-8 w-auto brightness-0 invert" />
           <div className="flex items-center gap-1.5">
@@ -97,22 +109,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           {NAV_ITEMS.map((item) => {
             const isActive =
-              item.href === "/dashboard"
-                ? pathname === "/dashboard"
-                : pathname.startsWith(item.href);
+              item.href === "/admin" ? pathname === "/admin" : pathname.startsWith(item.href);
 
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-white/10 text-white"
-                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                  isActive ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-white"
                 }`}
               >
                 {item.icon}
@@ -122,19 +129,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
 
-        {/* Profile + Language toggle + Logout */}
         <div className="px-3 py-4 border-t border-white/10 space-y-1">
           {me && (
             <Link
-              href={`/dashboard/users/${me.id}`}
+              href={`/admin/users/${me.id}`}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                pathname === `/dashboard/users/${me.id}`
+                pathname === `/admin/users/${me.id}`
                   ? "bg-white/10 text-white"
                   : "text-slate-400 hover:bg-white/5 hover:text-white"
               }`}
             >
               <div className="h-6 w-6 rounded-full bg-brand-purple/60 flex items-center justify-center text-white text-xs font-semibold shrink-0">
-                {me.firstName[0]}{me.lastName[0]}
+                {me.firstName[0]}
+                {me.lastName[0]}
               </div>
               <span className="truncate">
                 {me.firstName} {me.lastName}
@@ -153,10 +160,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 overflow-auto">
-        {children}
-      </main>
+      <main className="flex-1 overflow-auto">{children}</main>
     </div>
   );
 }

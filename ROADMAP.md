@@ -4,7 +4,7 @@ Statuts : ✅ Terminé · 🔄 En cours · ⬜ À faire
 
 ---
 
-## Phase 1 — Fondations & Identité _(en cours)_
+## Phase 1 — Fondations & Identité _(branche `feat/roadmap-phase-1`)_
 
 ### Authentification & Sécurité
 - ✅ JWT login / logout
@@ -20,27 +20,27 @@ Statuts : ✅ Terminé · 🔄 En cours · ⬜ À faire
 - ✅ Endpoint `GET /api/me`
 - ✅ Endpoints `GET /api/users` et `GET /api/users/{id}` (admin)
 - ✅ Listing companies en lecture seule (API Platform)
-- ⬜ `POST /api/companies` — création d'entreprise
-- ⬜ `PATCH /api/companies/{id}` — mise à jour
-- ⬜ `POST /api/admin/users` — création manuelle d'utilisateur par l'admin
+- ✅ `POST /api/companies` — création d'entreprise
+- ✅ `PATCH /api/companies/{id}` — mise à jour
+- ✅ `POST /api/admin/users` — création manuelle d'utilisateur par l'admin
 - ✅ `PATCH /api/admin/users/{id}` — modification de rôle / statut
-- ⬜ Assignation d'un utilisateur à une entreprise
+- ✅ Assignation d'un utilisateur à une entreprise
 
 ### Frontend — Dashboard admin
 - ✅ Layout dashboard (sidebar, thème, langue, logout)
 - ✅ Page d'accueil dashboard (compteurs utilisateurs/entreprises)
 - ✅ Pages listing utilisateurs et entreprises
 - ✅ Pages détail utilisateur et entreprise
-- ⬜ Installer Zustand + TanStack Query (remplacer les `useEffect/fetch`)
-- ⬜ Formulaires création / édition entreprise
-- ⬜ Formulaire création / édition utilisateur (admin)
-- ⬜ Guards de route par rôle (`middleware.ts`)
-- ⬜ Séparation des espaces : `/admin`, `/subcontractor`, `/client`
+- ✅ Installer Zustand + TanStack Query (remplacer les `useEffect/fetch`)
+- ✅ Formulaires création / édition entreprise
+- ✅ Formulaire création / édition utilisateur (admin)
+- ✅ Guards de route par rôle (`proxy.ts`, Next.js 16)
+- ✅ Séparation des espaces : `/admin`, `/subcontractor`, `/client`
 
 ### Infrastructure
 - ✅ Docker (PHP-FPM, Nginx, Next.js, PostgreSQL, Mailpit)
-- ⬜ Tests PHPUnit (au moins les flux auth)
-- ⬜ Variables d'environnement documentées (`.env.example`)
+- ✅ Tests PHPUnit (au moins les flux auth)
+- ✅ Variables d'environnement documentées (`backend/.env.example`)
 
 ---
 

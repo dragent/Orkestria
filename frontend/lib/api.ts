@@ -117,9 +117,34 @@ export type User = {
   isActive: boolean;
 };
 
+export type AdminCreateUserPayload = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  roles?: string[];
+  companyId?: number | null;
+};
+
+export type AdminUpdateUserPayload = {
+  roles?: string[];
+  isActive?: boolean;
+  companyId?: number | null;
+};
+
 export const usersApi = {
   list: () => apiFetchAuth<User[]>("/api/users"),
   get: (id: number) => apiFetchAuth<User>(`/api/users/${id}`),
+  adminCreate: (body: AdminCreateUserPayload) =>
+    apiFetchAuth<User>("/api/admin/users", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  adminUpdate: (id: number, body: AdminUpdateUserPayload) =>
+    apiFetchAuth<User>(`/api/admin/users/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
 };
 
 export const meApi = {
@@ -138,4 +163,14 @@ export type Company = {
 export const companiesApi = {
   list: () => apiFetchAuth<Company[]>("/api/companies"),
   get: (id: number) => apiFetchAuth<Company>(`/api/companies/${id}`),
+  create: (body: { name: string; slug: string }) =>
+    apiFetchAuth<Company>("/api/companies", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  update: (id: number, body: { name?: string; slug?: string }) =>
+    apiFetchAuth<Company>(`/api/companies/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
 };
