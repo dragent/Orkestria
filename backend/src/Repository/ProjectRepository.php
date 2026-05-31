@@ -20,10 +20,15 @@ final class ProjectRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return list<Project>
+     * @return array{items: list<Project>, total: int}
      */
-    public function search(?string $q, ?ProjectPipelineStage $pipeline, ?int $clientId): array
-    {
+    public function search(
+        ?string $q,
+        ?ProjectPipelineStage $pipeline,
+        ?int $clientId,
+        int $page = 1,
+        int $perPage = 50,
+    ): array {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.client', 'c')->addSelect('c')
             ->orderBy('p.createdAt', 'DESC');
@@ -45,9 +50,43 @@ final class ProjectRepository extends ServiceEntityRepository
             $qb->andWhere('c.id = :clientId')->setParameter('clientId', $clientId);
         }
 
-        /** @var list<Project> $list */
-        $list = $qb->getQuery()->getResult();
+        $total = (int) (clone $qb)->select('COUNT(p.id)')->getQuery()->getSingleScalarResult();
 
-        return $list;
+        if ($perPage > 0) {
+            $qb->setFirstResult(($page - 1) * $perPage)->setMaxResults($perPage);
+        }
+
+        /** @var list<Project> $items */
+        $items = $qb->getQuery()->getResult();
+
+        return ['items' => $items, 'total' => $total];
+    }
+
+    /**
+     * @return array<string, int> pipeline stage value => project count
+     */
+    public function countGroupedByPipelineStage(): array
+    {
+        $rows = $this->createQueryBuilder('p')
+            ->select('p.pipelineStage AS stage')
+            ->addSelect('COUNT(p.id) AS cnt')
+            ->groupBy('p.pipelineStage')
+            ->getQuery()
+            ->getArrayResult();
+
+        $out = [];
+        foreach (ProjectPipelineStage::cases() as $case) {
+            $out[$case->value] = 0;
+        }
+        foreach ($rows as $row) {
+            $stage = $row['stage'] ?? null;
+            $cnt = (int) ($row['cnt'] ?? 0);
+            $key = $stage instanceof ProjectPipelineStage ? $stage->value : (is_string($stage) ? $stage : null);
+            if ($key !== null && \array_key_exists($key, $out)) {
+                $out[$key] = $cnt;
+            }
+        }
+
+        return $out;
     }
 }

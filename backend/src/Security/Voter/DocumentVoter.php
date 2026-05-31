@@ -6,12 +6,17 @@ namespace App\Security\Voter;
 
 use App\Entity\Document;
 use App\Entity\User;
+use App\Repository\RoleScopePolicyRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 final class DocumentVoter extends Voter
 {
     public const VIEW = 'DOCUMENT_VIEW';
+
+    public function __construct(
+        private readonly RoleScopePolicyRepository $roleScopePolicyRepository,
+    ) {}
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -31,6 +36,12 @@ final class DocumentVoter extends Voter
 
         $scopeValue = $subject->getScope()->value;
 
-        return \in_array($scopeValue, $user->getDocumentScopes(), true);
+        if (\in_array($scopeValue, $user->getDocumentScopes(), true)) {
+            return true;
+        }
+
+        $roleScopes = $this->roleScopePolicyRepository->findScopesForRoles($user->getRoles());
+
+        return \in_array($scopeValue, $roleScopes, true);
     }
 }

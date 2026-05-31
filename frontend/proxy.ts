@@ -1,6 +1,5 @@
-import { decodeJwt } from "jose";
 import { NextRequest, NextResponse } from "next/server";
-import { postLoginPath } from "@/lib/jwt-roles";
+import { getRolesFromJwt, ORKESTRIA_ROLES, postLoginPath } from "@/lib/jwt-roles";
 
 const PUBLIC_PATHS = new Set([
   "/",
@@ -10,21 +9,17 @@ const PUBLIC_PATHS = new Set([
   "/reset-password",
 ]);
 
-function parseRoles(token: string): string[] {
-  try {
-    const payload = decodeJwt(token);
-    const raw = payload.roles;
-    if (!Array.isArray(raw)) {
-      return [];
-    }
-    return raw.filter((r): r is string => typeof r === "string");
-  } catch {
-    return [];
-  }
-}
+/** Auth forms: do not send users to "/" when JWT is missing space roles (ROLE_USER only, stale cookie, etc.) */
+const AUTH_FORM_PATHS = new Set([
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+]);
 
 export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const pathname =
+    request.nextUrl.pathname.replace(/\/$/, "") || "/";
 
   if (
     pathname.startsWith("/_next") ||
@@ -46,7 +41,8 @@ export function proxy(request: NextRequest) {
   const needsRoleGuard =
     pathname.startsWith("/admin") ||
     pathname.startsWith("/client") ||
-    pathname.startsWith("/subcontractor");
+    pathname.startsWith("/subcontractor") ||
+    pathname.startsWith("/dev");
 
   if (needsRoleGuard) {
     if (!token) {
@@ -54,11 +50,21 @@ export function proxy(request: NextRequest) {
       login.searchParams.set("next", pathname);
       return NextResponse.redirect(login);
     }
-    const roles = parseRoles(token);
-    if (pathname.startsWith("/admin") && !roles.includes("ROLE_ADMIN")) {
+    const roles = getRolesFromJwt(token);
+    if (pathname.startsWith("/admin")) {
+      const isAdmin = roles.includes("ROLE_ADMIN");
+      // ROLE_RH users can access the BTP/RH dashboard without full admin
+      const isRhOnBtpPage = roles.includes("ROLE_RH") && pathname.startsWith("/admin/btp-rh");
+      if (!isAdmin && !isRhOnBtpPage) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    }
+    if (pathname.startsWith("/dev") && !roles.includes("ROLE_DEVELOPER") && !roles.includes("ROLE_ADMIN")) {
       return NextResponse.redirect(new URL("/", request.url));
     }
-    if (pathname.startsWith("/client") && !roles.includes("ROLE_CLIENT")) {
+    const hasClientAccess =
+      roles.includes("ROLE_CLIENT") || roles.some((r) => ORKESTRIA_ROLES.includes(r));
+    if (pathname.startsWith("/client") && !hasClientAccess) {
       return NextResponse.redirect(new URL("/", request.url));
     }
     if (pathname.startsWith("/subcontractor") && !roles.includes("ROLE_SUBCONTRACTOR")) {
@@ -72,13 +78,20 @@ export function proxy(request: NextRequest) {
   }
 
   if (token && isPublic) {
-    const roles = parseRoles(token);
-    return NextResponse.redirect(new URL(postLoginPath(roles), request.url));
+    const roles = getRolesFromJwt(token);
+    const dest = postLoginPath(roles);
+    if (AUTH_FORM_PATHS.has(pathname) && dest === "/") {
+      return NextResponse.next();
+    }
+    // Avoid redirect loop: e.g. ROLE_USER maps to "/", or user already on target public page
+    if (dest !== pathname) {
+      return NextResponse.redirect(new URL(dest, request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.svg$).*)"],
+  matcher: ["/((?!api|auth|_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.svg$).*)"],
 };

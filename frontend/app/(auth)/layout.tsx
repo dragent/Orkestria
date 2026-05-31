@@ -67,11 +67,6 @@ export default function AuthLayout({
             {t.authSubtitle}
           </p>
         </div>
-
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
-          <span className="text-slate-500 text-sm">{t.authBadge}</span>
-        </div>
       </div>
 
       {/* Right panel — form */}

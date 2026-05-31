@@ -26,8 +26,18 @@ final class AdminUserController extends AbstractController
 {
     private const ALLOWED_ROLES = [
         'ROLE_USER',
+        // Orkestria (entreprise mère)
         'ROLE_ADMIN',
+        'ROLE_RH',
+        'ROLE_ENGINEER',
+        'ROLE_DEVELOPER',
+        'ROLE_WORKFORCE',
+        // Sous-traitants BTP
         'ROLE_SUBCONTRACTOR',
+        'ROLE_SUBCONTRACTOR_PATRON',
+        'ROLE_SUBCONTRACTOR_RH',
+        'ROLE_SUBCONTRACTOR_WORKFORCE',
+        // Clients
         'ROLE_CLIENT',
     ];
 

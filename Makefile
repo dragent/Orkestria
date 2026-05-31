@@ -20,6 +20,10 @@ down: ## Stop all containers
 build: ## Rebuild images
 	$(COMPOSE) build
 
+.PHONY: builder-prune
+builder-prune: ## Clear BuildKit cache (fixes "parent snapshot ... does not exist")
+	docker buildx prune -af
+
 .PHONY: restart
 restart: down up ## Restart all containers
 
@@ -56,6 +60,11 @@ test-backend: ## Run PHPUnit tests
 .PHONY: frontend
 frontend: ## Open a shell in the frontend container
 	$(COMPOSE) exec frontend sh
+
+.PHONY: frontend-npm-ci
+frontend-npm-ci: ## Refresh frontend node_modules inside Docker (after package.json / lockfile changes)
+	@$(COMPOSE) run --rm --entrypoint npm frontend ci
+	@echo "If the frontend container is already running: $(COMPOSE) up -d frontend"
 
 # ─── Database ─────────────────────────────────────────────────────────────────
 .PHONY: db

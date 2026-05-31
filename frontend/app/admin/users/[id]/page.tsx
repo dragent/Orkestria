@@ -10,6 +10,7 @@ import { FlashBag } from "@/components/FlashBag";
 import StatusBadge from "@/components/StatusBadge";
 import { useLanguage } from "@/contexts/language-context";
 import { useAdminUpdateUserMutation, useCompaniesQuery, useUserQuery } from "@/lib/hooks/queries";
+import { ROLE_GROUPS, getPrimaryRole, getRoleLabel, getRoleBadgeClass } from "@/lib/api";
 
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -21,16 +22,9 @@ function DetailRow({ label, children }: { label: string; children: React.ReactNo
 }
 
 const adminSchema = z.object({
-  roleAdmin: z.boolean(),
-  roleClient: z.boolean(),
-  roleSubcontractor: z.boolean(),
+  role: z.string(),
   isActive: z.boolean(),
   companyId: z.string(),
-  scopeRh: z.boolean(),
-  scopeTech: z.boolean(),
-  scopeFinance: z.boolean(),
-  scopeDesign: z.boolean(),
-  scopeLegal: z.boolean(),
 });
 
 type AdminForm = z.infer<typeof adminSchema>;
@@ -43,6 +37,7 @@ export default function AdminUserDetailPage() {
   const tf = t.adminForms;
   const [serverError, setServerError] = useState<string | null>(null);
   const [saveOk, setSaveOk] = useState(false);
+  const roleGroups = ROLE_GROUPS[lang];
 
   const { data: user, isLoading, isError, error } = useUserQuery(Number.isFinite(userId) ? userId : undefined);
   const { data: companies = [] } = useCompaniesQuery();
@@ -55,61 +50,29 @@ export default function AdminUserDetailPage() {
     formState: { isSubmitting },
   } = useForm<AdminForm>({
     resolver: zodResolver(adminSchema),
-    defaultValues: {
-      roleAdmin: false,
-      roleClient: false,
-      roleSubcontractor: false,
-      isActive: true,
-      companyId: "",
-      scopeRh: false,
-      scopeTech: false,
-      scopeFinance: false,
-      scopeDesign: false,
-      scopeLegal: false,
-    },
+    defaultValues: { role: "", isActive: true, companyId: "" },
   });
 
   useEffect(() => {
     if (!user) return;
-    const ds = user.documentScopes ?? [];
     reset({
-      roleAdmin: user.roles.includes("ROLE_ADMIN"),
-      roleClient: user.roles.includes("ROLE_CLIENT"),
-      roleSubcontractor: user.roles.includes("ROLE_SUBCONTRACTOR"),
+      role: getPrimaryRole(user.roles),
       isActive: user.isActive,
       companyId: user.company ? String(user.company.id) : "",
-      scopeRh: ds.includes("rh"),
-      scopeTech: ds.includes("tech"),
-      scopeFinance: ds.includes("finance"),
-      scopeDesign: ds.includes("design"),
-      scopeLegal: ds.includes("legal"),
     });
   }, [user, reset]);
 
   async function onSaveAdmin(data: AdminForm) {
     setServerError(null);
     setSaveOk(false);
-    const roles: string[] = [];
-    if (data.roleAdmin) roles.push("ROLE_ADMIN");
-    if (data.roleClient) roles.push("ROLE_CLIENT");
-    if (data.roleSubcontractor) roles.push("ROLE_SUBCONTRACTOR");
-
-    const companyId =
-      data.companyId === "" ? null : Number.parseInt(data.companyId, 10);
-
-    const documentScopes: string[] = [];
-    if (data.scopeRh) documentScopes.push("rh");
-    if (data.scopeTech) documentScopes.push("tech");
-    if (data.scopeFinance) documentScopes.push("finance");
-    if (data.scopeDesign) documentScopes.push("design");
-    if (data.scopeLegal) documentScopes.push("legal");
+    const roles: string[] = data.role ? [data.role] : [];
+    const companyId = data.companyId === "" ? null : Number.parseInt(data.companyId, 10);
 
     try {
       await updateMutation.mutateAsync({
         roles,
         isActive: data.isActive,
         companyId: companyId !== null && Number.isFinite(companyId) ? companyId : null,
-        documentScopes,
       });
       setSaveOk(true);
     } catch (err: unknown) {
@@ -121,9 +84,9 @@ export default function AdminUserDetailPage() {
   const dateLocale = lang === "fr" ? "fr-FR" : "en-GB";
   const loadError = isError ? ((error as { message?: string })?.message ?? tud.loadError) : null;
 
-  if (!Number.isFinite(userId)) {
-    return null;
-  }
+  if (!Number.isFinite(userId)) return null;
+
+  const primaryRole = user ? getPrimaryRole(user.roles) : "ROLE_USER";
 
   return (
     <div className="p-8 space-y-6 max-w-2xl">
@@ -169,15 +132,9 @@ export default function AdminUserDetailPage() {
               <DetailRow label={tud.firstName}>{user.firstName}</DetailRow>
               <DetailRow label={tud.lastName}>{user.lastName}</DetailRow>
               <DetailRow label={tud.role}>
-                {user.roles.includes("ROLE_ADMIN") ? (
-                  <span className="inline-flex items-center rounded-full bg-brand-purple/10 px-2.5 py-0.5 text-xs font-medium text-brand-purple ring-1 ring-brand-purple/20">
-                    {t.admin}
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center rounded-full bg-slate-100 dark:bg-zinc-800 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:text-zinc-300 ring-1 ring-slate-200 dark:ring-zinc-600">
-                    {t.user}
-                  </span>
-                )}
+                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ${getRoleBadgeClass(primaryRole)}`}>
+                  {getRoleLabel(primaryRole, lang)}
+                </span>
               </DetailRow>
               <DetailRow label={tud.company}>
                 {user.company ? (
@@ -207,47 +164,26 @@ export default function AdminUserDetailPage() {
           <div className="rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-6 space-y-4">
             <h2 className="font-semibold text-brand-navy dark:text-white">{tf.adminSettings}</h2>
             <form onSubmit={handleSubmit(onSaveAdmin)} className="space-y-4">
-              <fieldset className="space-y-2">
-                <legend className="text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.rolesLabel}</legend>
-                <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                  <input type="checkbox" {...register("roleAdmin")} />
-                  {t.admin}
-                </label>
-                <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                  <input type="checkbox" {...register("roleClient")} />
-                  Client
-                </label>
-              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                <input type="checkbox" {...register("roleSubcontractor")} />
-                Subcontractor
-              </label>
-            </fieldset>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.rolesLabel}</label>
+                <select
+                  {...register("role")}
+                  className="mt-1 w-full rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-950 px-3 py-2 text-sm"
+                >
+                  <option value="">{tf.selectRolePlaceholder}</option>
+                  {roleGroups.map((group) => (
+                    <optgroup key={group.label} label={group.label}>
+                      {group.roles.map((r) => (
+                        <option key={r.value} value={r.value}>
+                          {r.label}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
+              </div>
 
-            <fieldset className="space-y-2">
-              <legend className="text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.documentAccess}</legend>
               <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                <input type="checkbox" {...register("scopeRh")} />
-                RH
-              </label>
-              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                <input type="checkbox" {...register("scopeTech")} />
-                Tech
-              </label>
-              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                <input type="checkbox" {...register("scopeFinance")} />
-                Finance
-              </label>
-              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                <input type="checkbox" {...register("scopeDesign")} />
-                Design
-              </label>
-              <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-                <input type="checkbox" {...register("scopeLegal")} />
-                Legal
-              </label>
-            </fieldset>
-
-            <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
                 <input type="checkbox" {...register("isActive")} />
                 {t.active}
               </label>

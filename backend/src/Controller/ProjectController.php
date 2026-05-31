@@ -63,10 +63,18 @@ final class ProjectController extends AbstractController
             $clientId = (int) $clientIdParam;
         }
 
-        $projects = $this->projectRepository->search($q, $pipeline, $clientId);
-        $json = $this->serializer->serialize($projects, 'json', ['groups' => self::SERIALIZATION_GROUPS]);
+        $page    = max(1, (int) ($request->query->get('page', '1') ?? '1'));
+        $perPage = max(0, (int) ($request->query->get('perPage', '50') ?? '50'));
 
-        return new JsonResponse($json, Response::HTTP_OK, [], true);
+        $result  = $this->projectRepository->search($q, $pipeline, $clientId, $page, $perPage);
+        $json    = $this->serializer->serialize($result['items'], 'json', ['groups' => self::SERIALIZATION_GROUPS]);
+        $headers = [
+            'X-Total-Count' => (string) $result['total'],
+            'X-Page'        => (string) $page,
+            'X-Per-Page'    => (string) $perPage,
+        ];
+
+        return new JsonResponse($json, Response::HTTP_OK, $headers, true);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements: ['id' => '\d+'])]

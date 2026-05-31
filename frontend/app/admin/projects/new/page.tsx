@@ -40,7 +40,7 @@ export default function NewProjectPage() {
     defaultValues: {
       title: "",
       clientId: "",
-      pipelineStage: "lead",
+      pipelineStage: "contact",
       startDate: "",
       endDate: "",
     },

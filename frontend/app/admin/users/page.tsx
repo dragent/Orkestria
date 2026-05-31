@@ -5,6 +5,7 @@ import { FlashBag } from "@/components/FlashBag";
 import StatusBadge from "@/components/StatusBadge";
 import { useLanguage } from "@/contexts/language-context";
 import { useUsersQuery } from "@/lib/hooks/queries";
+import { getPrimaryRole, getRoleLabel, getRoleBadgeClass } from "@/lib/api";
 
 export default function AdminUsersPage() {
   const { data: users = [], isLoading: loading, isError, error } = useUsersQuery();
@@ -91,15 +92,14 @@ export default function AdminUsersPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        {user.roles.includes("ROLE_ADMIN") ? (
-                          <span className="inline-flex items-center rounded-full bg-brand-purple/10 px-2.5 py-0.5 text-xs font-medium text-brand-purple ring-1 ring-brand-purple/20">
-                            {t.admin}
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center rounded-full bg-slate-100 dark:bg-zinc-800 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:text-zinc-300 ring-1 ring-slate-200 dark:ring-zinc-600">
-                            {t.user}
-                          </span>
-                        )}
+                        {(() => {
+                          const primary = getPrimaryRole(user.roles);
+                          return (
+                            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ${getRoleBadgeClass(primary)}`}>
+                              {getRoleLabel(primary, lang)}
+                            </span>
+                          );
+                        })()}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-600 dark:text-zinc-300">
                         {user.company ? (

@@ -18,7 +18,6 @@ export type Translations = {
     heroSubtitle: string;
     startFree: string;
     signInAccount: string;
-    badge: string;
     dataOwnership: string;
     projectsSupported: string;
     available: string;
@@ -36,7 +35,6 @@ export type Translations = {
   };
   authTagline: string;
   authSubtitle: string;
-  authBadge: string;
   login: {
     title: string;
     subtitle: string;
@@ -123,8 +121,17 @@ export type Translations = {
     companies: string;
     clients: string;
     projects: string;
+    employees: string;
+    roleScopes: string;
+    tickets: string;
+    btpRh: string;
+    kanban: string;
+    leavesNav: string;
     profile: string;
     signOut: string;
+    switchToUserMode: string;
+    clientView: string;
+    backToAdmin: string;
   };
   adminForms: {
     newCompany: string;
@@ -147,6 +154,7 @@ export type Translations = {
     genericError: string;
     changesSaved: string;
     documentAccess: string;
+    selectRolePlaceholder: string;
   };
   spaces: {
     clientTitle: string;
@@ -241,6 +249,10 @@ export type Translations = {
     loadError: string;
     none: string;
     back: string;
+    listView: string;
+  };
+  kanban: {
+    subtitle: string;
   };
   projectDetail: {
     dates: string;
@@ -249,12 +261,32 @@ export type Translations = {
     pipeline: string;
   };
   pipeline: {
-    lead: string;
-    quote: string;
-    production: string;
-    delivery: string;
-    invoiced: string;
-  };
+    contact: string;
+    meeting: string;
+    engineer_assigned: string;
+    quote_plan: string;
+    quote_signed: string;
+    invoice_sent: string;
+    deposit_received: string;
+    design_started: string;
+    design_completed: string;
+    client_signed: string;
+    components_ordered: string;
+    construction: string;
+    subcontractors: string;
+    site_visit: string;
+    paid: string;
+    advanceButton: string;
+    advanceTo: string;
+    noPermission: string;
+    terminal: string;
+      historyTitle: string;
+      historyEmpty: string;
+      historyFrom: string;
+      historyTo: string;
+      historyBy: string;
+      notePlaceholder: string;
+    };
   documents: {
     title: string;
     upload: string;
@@ -270,6 +302,305 @@ export type Translations = {
     scopeFinance: string;
     scopeDesign: string;
     scopeLegal: string;
+  };
+  roleScopes: {
+    title: string;
+    subtitle: string;
+    save: string;
+    saving: string;
+    saveOk: string;
+    loadError: string;
+    noPolicy: string;
+  };
+  employees: {
+    title: string;
+    subtitle: string;
+    add: string;
+    newTitle: string;
+    colName: string;
+    colRole: string;
+    colCompany: string;
+    colRate: string;
+    colSkills: string;
+    none: string;
+    loadError: string;
+    back: string;
+    firstName: string;
+    lastName: string;
+    role: string;
+    skills: string;
+    skillsPlaceholder: string;
+    dailyRate: string;
+    linkedUser: string;
+    save: string;
+    saving: string;
+  };
+  tasks: {
+    title: string;
+    add: string;
+    none: string;
+    loadError: string;
+    titleLabel: string;
+    description: string;
+    status: string;
+    dueDate: string;
+    assignee: string;
+    noAssignee: string;
+    statusOpen: string;
+    statusInProgress: string;
+    statusDone: string;
+    save: string;
+    saving: string;
+    delete: string;
+  };
+  tickets: {
+    title: string;
+    subtitle: string;
+    add: string;
+    new: string;
+    none: string;
+    loadError: string;
+    titleLabel: string;
+    description: string;
+    status: string;
+    priority: string;
+    type: string;
+    source: string;
+    project: string;
+    noProject: string;
+    assignee: string;
+    noAssignee: string;
+    reporter: string;
+    createdAt: string;
+    updatedAt: string;
+    filters: string;
+    search: string;
+    all: string;
+    boardView: string;
+    listView: string;
+    searchPlaceholder: string;
+    allPriorities: string;
+    allTypes: string;
+    clearFilters: string;
+    save: string;
+    saving: string;
+    cancel: string;
+    delete: string;
+    confirmDelete: string;
+    comments: string;
+    addComment: string;
+    commentPlaceholder: string;
+    sendComment: string;
+    sending: string;
+    backToList: string;
+    slaTitle: string;
+    slaCreated: string;
+    slaFirstResponse: string;
+    slaResolved: string;
+    slaStatus: string;
+    slaMinutes: string;
+    slaPending: string;
+    statusOpen: string;
+    statusInProgress: string;
+    statusInReview: string;
+    statusDone: string;
+    statusClosed: string;
+    priorityLow: string;
+    priorityNormal: string;
+    priorityHigh: string;
+    priorityUrgent: string;
+    typeBug: string;
+    typeFeature: string;
+    typeTask: string;
+    typeSupport: string;
+    typeIncident: string;
+    sourceInternal: string;
+    sourceClient: string;
+    clientSection: {
+      title: string;
+      subtitle: string;
+      open: string;
+      noTickets: string;
+    };
+    devSpace: {
+      title: string;
+      subtitle: string;
+      myAssigned: string;
+      noAssigned: string;
+      urgentUnanswered: string;
+      waitingSince: string;
+      noResponseFor: string;
+      recentlyResolved: string;
+      resolvedIn: string;
+    };
+  };
+  timeTracking: {
+    title: string;
+    add: string;
+    none: string;
+    employee: string;
+    hours: string;
+    date: string;
+    description: string;
+    hourType: string;
+    hourTypeRegular: string;
+    hourTypeNight: string;
+    hourTypeWeekend: string;
+    hourTypeTravel: string;
+    hourTypeOnCall: string;
+    save: string;
+    saving: string;
+    totalHours: string;
+    delete: string;
+  };
+  quotes: {
+    title: string;
+    add: string;
+    none: string;
+    loadError: string;
+    newTitle: string;
+    back: string;
+    label: string;
+    quantity: string;
+    unitPrice: string;
+    total: string;
+    addLine: string;
+    removeLine: string;
+    notes: string;
+    statusDraft: string;
+    statusSent: string;
+    statusAccepted: string;
+    statusRejected: string;
+    send: string;
+    accept: string;
+    reject: string;
+    viewPdf: string;
+    grandTotal: string;
+    save: string;
+    saving: string;
+    deleteConfirm: string;
+  };
+  invoices: {
+    title: string;
+    none: string;
+    loadError: string;
+    statusDraft: string;
+    statusSent: string;
+    statusPaid: string;
+    markPaid: string;
+    viewPdf: string;
+    total: string;
+    paidAt: string;
+  };
+  classification: {
+    pending: string;
+    done: string;
+    error: string;
+    label: string;
+    editLabel: string;
+    save: string;
+  };
+  subcontractor: {
+    projectsTitle: string;
+    projectsSubtitle: string;
+    noProjects: string;
+    loadError: string;
+    myTasks: string;
+    markDone: string;
+  };
+  clientSpace: {
+    projectsTitle: string;
+    projectsSubtitle: string;
+    noProjects: string;
+    loadError: string;
+    quotesTitle: string;
+    invoicesTitle: string;
+  };
+  btpRh: {
+    title: string;
+    subtitle: string;
+    kpisTitle: string;
+    acceptedQuotes: string;
+    hoursLast30Days: string;
+    complianceDue30Days: string;
+    projectsByStage: string;
+    payrollTitle: string;
+    from: string;
+    to: string;
+    companyFilter: string;
+    allCompanies: string;
+    downloadCsv: string;
+    downloading: string;
+    deadlinesTitle: string;
+    addDeadline: string;
+    titleLabel: string;
+    categoryLabel: string;
+    expiresLabel: string;
+    notesLabel: string;
+    companyLabel: string;
+    optionalEmployeeId: string;
+    optionalProjectId: string;
+    save: string;
+    saving: string;
+    delete: string;
+    confirmDelete: string;
+    loadError: string;
+    noDeadlines: string;
+    categoryCertification: string;
+    categoryInsurance: string;
+    categoryMedical: string;
+    categoryOther: string;
+    filterUpcoming: string;
+    editDeadline: string;
+    cancelEdit: string;
+    updateDeadline: string;
+    updating: string;
+    actualLaborCost: string;
+    margin: string;
+    pendingLeaves: string;
+  };
+  leaves: {
+    title: string;
+    subtitle: string;
+    addLeave: string;
+    noLeaves: string;
+    loadError: string;
+    employeeLabel: string;
+    typeLabel: string;
+    statusLabel: string;
+    startsLabel: string;
+    endsLabel: string;
+    reasonLabel: string;
+    save: string;
+    saving: string;
+    approve: string;
+    approving: string;
+    reject: string;
+    rejecting: string;
+    delete: string;
+    confirmDelete: string;
+    confirmApprove: string;
+    confirmReject: string;
+    filterStatus: string;
+    filterType: string;
+    allStatuses: string;
+    allTypes: string;
+    workingDays: string;
+    approvedBy: string;
+    approvedAt: string;
+    typePaidVacation: string;
+    typeRtt: string;
+    typeSick: string;
+    typeTraining: string;
+    typeOther: string;
+    statusPending: string;
+    statusApproved: string;
+    statusRejected: string;
+    statusCancelled: string;
+    allCompanies: string;
+    allEmployees: string;
+    viewList: string;
+    viewCalendar: string;
   };
 };
 
@@ -293,7 +624,6 @@ export const translations: Record<Language, Translations> = {
         "Gérez clients, équipes, sous-traitants et finances — tout en une seule plateforme.",
       startFree: "Commencer gratuitement",
       signInAccount: "Se connecter à votre compte",
-      badge: "Sécurisé · Multi-locataire · Basé sur les rôles",
       dataOwnership: "Propriété des données",
       projectsSupported: "Projets supportés",
       available: "Disponible",
@@ -330,7 +660,6 @@ export const translations: Record<Language, Translations> = {
     authTagline: "Orchestrez vos projets, sans effort.",
     authSubtitle:
       "Gérez clients, équipes, sous-traitants et finances — tout en une seule plateforme.",
-    authBadge: "Sécurisé • Multi-locataire • Basé sur les rôles",
     login: {
       title: "Bienvenue",
       subtitle: "Connectez-vous à votre espace Orkestria",
@@ -417,8 +746,17 @@ export const translations: Record<Language, Translations> = {
       companies: "Entreprises",
       clients: "Clients",
       projects: "Projets",
+      employees: "Employés",
       profile: "Mon profil",
+      roleScopes: "Permissions",
+      tickets: "Tickets",
+      btpRh: "BTP / RH",
+      leavesNav: "Absences",
+      kanban: "Kanban projets",
       signOut: "Se déconnecter",
+      switchToUserMode: "Mode utilisateur",
+      clientView: "Vue client",
+      backToAdmin: "Retour à l'admin",
     },
     dashboard: {
       title: "Tableau de bord",
@@ -508,6 +846,10 @@ export const translations: Record<Language, Translations> = {
       loadError: "Impossible de charger les projets.",
       none: "Aucun projet.",
       back: "Projets",
+      listView: "Vue liste",
+    },
+    kanban: {
+      subtitle: "Glissez les cartes pour changer d'étape",
     },
     projectDetail: {
       dates: "Dates",
@@ -516,11 +858,31 @@ export const translations: Record<Language, Translations> = {
       pipeline: "Pipeline",
     },
     pipeline: {
-      lead: "Piste",
-      quote: "Devis",
-      production: "Production",
-      delivery: "Livraison",
-      invoiced: "Facturé",
+      contact:            "Prise de contact",
+      meeting:            "Rencontre client",
+      engineer_assigned:  "Prise par un ingénieur",
+      quote_plan:         "Plan pour devis",
+      quote_signed:       "Signature du devis",
+      invoice_sent:       "Facture envoyée",
+      deposit_received:   "Acompte reçu",
+      design_started:     "Début dessin architecte",
+      design_completed:   "Fin du dessin",
+      client_signed:      "Signature client",
+      components_ordered: "Commande des composants",
+      construction:       "Montage de la maison",
+      subcontractors:     "Intervention sous-traitants",
+      site_visit:         "Visite",
+      paid:               "Paiement total",
+      advanceButton:      "Avancer l'étape",
+      advanceTo:          "Avancer vers",
+      noPermission:       "Vous n'avez pas les droits pour avancer cette étape.",
+      terminal:           "Projet terminé",
+      historyTitle:       "Historique des étapes",
+      historyEmpty:       "Aucun changement d'étape enregistré.",
+      historyFrom:        "De",
+      historyTo:          "Vers",
+      historyBy:          "Par",
+      notePlaceholder:    "Note optionnelle (ex. : réf. devis, remarque)…",
     },
     documents: {
       title: "Documents",
@@ -537,6 +899,15 @@ export const translations: Record<Language, Translations> = {
       scopeFinance: "Finance",
       scopeDesign: "Design",
       scopeLegal: "Juridique",
+    },
+    roleScopes: {
+      title: "Accès aux documents par rôle",
+      subtitle: "Définissez quels scopes de documents chaque rôle peut consulter. Ces droits s'ajoutent aux droits individuels.",
+      save: "Enregistrer les politiques",
+      saving: "Enregistrement…",
+      saveOk: "Politiques enregistrées.",
+      loadError: "Impossible de charger les politiques d'accès.",
+      noPolicy: "Aucune politique définie.",
     },
     adminForms: {
       newCompany: "Nouvelle entreprise",
@@ -559,6 +930,7 @@ export const translations: Record<Language, Translations> = {
       genericError: "Une erreur est survenue.",
       changesSaved: "Modifications enregistrées.",
       documentAccess: "Accès aux documents par scope",
+      selectRolePlaceholder: "Sélectionner un rôle",
     },
     spaces: {
       clientTitle: "Espace client",
@@ -567,6 +939,297 @@ export const translations: Record<Language, Translations> = {
       subcontractorTitle: "Espace sous-traitant",
       subcontractorBody:
         "L'accès aux projets assignés et aux livrables sera disponible prochainement.",
+    },
+    employees: {
+      title: "Employés",
+      subtitle: "Membres de l'équipe et sous-traitants",
+      add: "Ajouter un employé",
+      newTitle: "Nouvel employé",
+      colName: "Nom",
+      colRole: "Rôle",
+      colCompany: "Entreprise",
+      colRate: "Taux journalier",
+      colSkills: "Compétences",
+      none: "Aucun employé.",
+      loadError: "Impossible de charger les employés.",
+      back: "Employés",
+      firstName: "Prénom",
+      lastName: "Nom",
+      role: "Rôle / Poste",
+      skills: "Compétences (séparées par virgule)",
+      skillsPlaceholder: "React, TypeScript, Node.js…",
+      dailyRate: "Taux journalier (€)",
+      linkedUser: "Compte utilisateur lié",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+    },
+    tasks: {
+      title: "Tâches",
+      add: "Ajouter une tâche",
+      none: "Aucune tâche.",
+      loadError: "Impossible de charger les tâches.",
+      titleLabel: "Titre",
+      description: "Description",
+      status: "Statut",
+      dueDate: "Échéance",
+      assignee: "Assigné à",
+      noAssignee: "Non assigné",
+      statusOpen: "Ouvert",
+      statusInProgress: "En cours",
+      statusDone: "Terminé",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+      delete: "Supprimer",
+    },
+    tickets: {
+      title: "Tickets",
+      subtitle: "Suivi des bugs, demandes et incidents",
+      add: "Nouveau ticket",
+      new: "Nouveau",
+      none: "Aucun ticket.",
+      loadError: "Impossible de charger les tickets.",
+      titleLabel: "Titre",
+      description: "Description",
+      status: "Statut",
+      priority: "Priorité",
+      type: "Type",
+      source: "Source",
+      project: "Projet",
+      noProject: "Sans projet",
+      assignee: "Assigné à",
+      noAssignee: "Non assigné",
+      reporter: "Rapporté par",
+      createdAt: "Créé le",
+      updatedAt: "Mis à jour le",
+      filters: "Filtres",
+      search: "Rechercher…",
+      all: "Tous",
+      boardView: "Vue tableau",
+      listView: "Vue liste",
+      searchPlaceholder: "Rechercher…",
+      allPriorities: "Toutes priorités",
+      allTypes: "Tous types",
+      clearFilters: "Effacer filtres",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+      cancel: "Annuler",
+      delete: "Supprimer",
+      confirmDelete: "Supprimer ce ticket ?",
+      comments: "Commentaires",
+      addComment: "Ajouter un commentaire",
+      commentPlaceholder: "Votre commentaire…",
+      sendComment: "Envoyer",
+      sending: "Envoi…",
+      backToList: "Retour à la liste",
+      slaTitle: "SLA & Délais",
+      slaCreated: "Créé le",
+      slaFirstResponse: "Première réponse",
+      slaResolved: "Résolu",
+      slaStatus: "Statut actuel",
+      slaMinutes: "min",
+      slaPending: "En attente",
+      statusOpen: "Ouvert",
+      statusInProgress: "En cours",
+      statusInReview: "En relecture",
+      statusDone: "Terminé",
+      statusClosed: "Clôturé",
+      priorityLow: "Basse",
+      priorityNormal: "Normale",
+      priorityHigh: "Haute",
+      priorityUrgent: "Urgente",
+      typeBug: "Bug",
+      typeFeature: "Fonctionnalité",
+      typeTask: "Tâche",
+      typeSupport: "Support",
+      typeIncident: "Incident",
+      sourceInternal: "Interne",
+      sourceClient: "Client",
+      clientSection: {
+        title: "Support",
+        subtitle: "Ouvrez un ticket si vous rencontrez un problème.",
+        open: "Ouvrir un ticket",
+        noTickets: "Aucun ticket pour le moment.",
+      },
+      devSpace: {
+        title: "Espace dev",
+        subtitle: "Tickets internes et demandes clients à traiter",
+        myAssigned: "Mes tickets actifs",
+        noAssigned: "Aucun ticket assigné.",
+        urgentUnanswered: "Urgents sans réponse",
+        waitingSince: "En attente depuis",
+        noResponseFor: "Sans réponse depuis",
+        recentlyResolved: "Résolutions récentes",
+        resolvedIn: "résolu en",
+      },
+    },
+    timeTracking: {
+      title: "Suivi du temps",
+      add: "Ajouter une entrée",
+      none: "Aucune entrée de temps.",
+      employee: "Employé",
+      hours: "Heures",
+      date: "Date",
+      description: "Description",
+      hourType: "Type d'heure",
+      hourTypeRegular: "Standard",
+      hourTypeNight: "Nuit",
+      hourTypeWeekend: "Week-end",
+      hourTypeTravel: "Déplacement",
+      hourTypeOnCall: "Astreinte",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+      totalHours: "Total heures",
+      delete: "Supprimer",
+    },
+    quotes: {
+      title: "Devis",
+      add: "Nouveau devis",
+      none: "Aucun devis.",
+      loadError: "Impossible de charger les devis.",
+      newTitle: "Nouveau devis",
+      back: "Devis",
+      label: "Désignation",
+      quantity: "Quantité",
+      unitPrice: "P.U. (€)",
+      total: "Total",
+      addLine: "Ajouter une ligne",
+      removeLine: "Supprimer",
+      notes: "Notes",
+      statusDraft: "Brouillon",
+      statusSent: "Envoyé",
+      statusAccepted: "Accepté",
+      statusRejected: "Rejeté",
+      send: "Marquer comme envoyé",
+      accept: "Accepter",
+      reject: "Rejeter",
+      viewPdf: "Voir PDF",
+      grandTotal: "Total HT",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+      deleteConfirm: "Supprimer ce devis ?",
+    },
+    invoices: {
+      title: "Factures",
+      none: "Aucune facture.",
+      loadError: "Impossible de charger les factures.",
+      statusDraft: "Brouillon",
+      statusSent: "Envoyée",
+      statusPaid: "Payée",
+      markPaid: "Marquer comme payée",
+      viewPdf: "Voir PDF",
+      total: "Montant HT",
+      paidAt: "Payée le",
+    },
+    classification: {
+      pending: "Classification en cours…",
+      done: "Classifié",
+      error: "Erreur de classification",
+      label: "Classification",
+      editLabel: "Modifier la classification",
+      save: "Sauvegarder",
+    },
+    subcontractor: {
+      projectsTitle: "Mes projets",
+      projectsSubtitle: "Projets auxquels vous êtes assigné",
+      noProjects: "Aucun projet assigné.",
+      loadError: "Impossible de charger vos projets.",
+      myTasks: "Mes tâches",
+      markDone: "Marquer comme terminé",
+    },
+    clientSpace: {
+      projectsTitle: "Mes projets",
+      projectsSubtitle: "Suivez l'avancement de vos projets",
+      noProjects: "Aucun projet.",
+      loadError: "Impossible de charger vos projets.",
+      quotesTitle: "Devis",
+      invoicesTitle: "Factures",
+    },
+    btpRh: {
+      title: "Pilotage BTP & RH",
+      subtitle:
+        "Indicateurs dirigeant, export des temps pour la paie et échéances conformité (habilitations, assurances…).",
+      kpisTitle: "Indicateurs",
+      acceptedQuotes: "Montant devis acceptés",
+      hoursLast30Days: "Heures saisies (30 jours)",
+      complianceDue30Days: "Échéances sous 30 jours",
+      projectsByStage: "Projets par étape de pipeline",
+      payrollTitle: "Export paie (CSV)",
+      from: "Du",
+      to: "Au",
+      companyFilter: "Entreprise",
+      allCompanies: "Toutes",
+      downloadCsv: "Télécharger le CSV",
+      downloading: "Préparation…",
+      deadlinesTitle: "Échéances conformité",
+      addDeadline: "Ajouter une échéance",
+      titleLabel: "Libellé",
+      categoryLabel: "Catégorie",
+      expiresLabel: "Date d'expiration",
+      notesLabel: "Notes",
+      companyLabel: "Entreprise",
+      optionalEmployeeId: "ID employé (optionnel)",
+      optionalProjectId: "ID projet (optionnel)",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+      delete: "Supprimer",
+      confirmDelete: "Supprimer cette échéance ?",
+      loadError: "Impossible de charger les données BTP/RH.",
+      noDeadlines: "Aucune échéance enregistrée.",
+      categoryCertification: "Habilitation / formation",
+      categoryInsurance: "Assurance / attestation",
+      categoryMedical: "Visite médicale",
+      categoryOther: "Autre",
+      filterUpcoming: "Limiter aux échéances des 90 prochains jours",
+      editDeadline: "Modifier",
+      cancelEdit: "Annuler",
+      updateDeadline: "Mettre à jour",
+      updating: "Mise à jour…",
+      actualLaborCost: "Coût MO réel (all time)",
+      margin: "Marge CA − coût MO",
+      pendingLeaves: "Congés en attente",
+    },
+    leaves: {
+      title: "Absences & Congés",
+      subtitle: "Gestion des demandes d'absence : congés payés, RTT, maladie, formations.",
+      addLeave: "Ajouter une absence",
+      noLeaves: "Aucune absence enregistrée.",
+      loadError: "Impossible de charger les absences.",
+      employeeLabel: "Employé",
+      typeLabel: "Type",
+      statusLabel: "Statut",
+      startsLabel: "Date de début",
+      endsLabel: "Date de fin",
+      reasonLabel: "Motif",
+      save: "Enregistrer",
+      saving: "Enregistrement…",
+      approve: "Approuver",
+      approving: "Approbation…",
+      reject: "Refuser",
+      rejecting: "Refus…",
+      delete: "Supprimer",
+      confirmDelete: "Supprimer cette absence ?",
+      confirmApprove: "Approuver cette demande d'absence ?",
+      confirmReject: "Refuser cette demande d'absence ?",
+      filterStatus: "Statut",
+      filterType: "Type",
+      allStatuses: "Tous les statuts",
+      allTypes: "Tous les types",
+      workingDays: "jours ouvrés",
+      approvedBy: "Traité par",
+      approvedAt: "Le",
+      typePaidVacation: "Congés payés",
+      typeRtt: "RTT",
+      typeSick: "Arrêt maladie",
+      typeTraining: "Formation",
+      typeOther: "Autre",
+      statusPending: "En attente",
+      statusApproved: "Approuvé",
+      statusRejected: "Refusé",
+      statusCancelled: "Annulé",
+      allCompanies: "Toutes les entreprises",
+      allEmployees: "Tous les employés",
+      viewList: "Liste",
+      viewCalendar: "Calendrier",
     },
   },
 
@@ -589,7 +1252,6 @@ export const translations: Record<Language, Translations> = {
         "Manage clients, teams, subcontractors and financials — all in one platform.",
       startFree: "Start for free",
       signInAccount: "Sign in to your account",
-      badge: "Secure · Multi-tenant · Role-based",
       dataOwnership: "Data ownership",
       projectsSupported: "Projects supported",
       available: "Available",
@@ -626,7 +1288,6 @@ export const translations: Record<Language, Translations> = {
     authTagline: "Orchestrate your projects, effortlessly.",
     authSubtitle:
       "Manage clients, teams, subcontractors and financials — all in one platform.",
-    authBadge: "Secure • Multi-tenant • Role-based",
     login: {
       title: "Welcome back",
       subtitle: "Sign in to your Orkestria account",
@@ -713,8 +1374,17 @@ export const translations: Record<Language, Translations> = {
       companies: "Companies",
       clients: "Clients",
       projects: "Projects",
+      employees: "Employees",
       profile: "My profile",
+      roleScopes: "Permissions",
+      tickets: "Tickets",
+      btpRh: "Construction / HR",
+      leavesNav: "Absences",
+      kanban: "Projects Kanban",
       signOut: "Sign out",
+      switchToUserMode: "User mode",
+      clientView: "Client view",
+      backToAdmin: "Back to admin",
     },
     dashboard: {
       title: "Dashboard",
@@ -804,6 +1474,10 @@ export const translations: Record<Language, Translations> = {
       loadError: "Failed to load projects.",
       none: "No projects yet.",
       back: "Projects",
+      listView: "List view",
+    },
+    kanban: {
+      subtitle: "Drag cards to change stages",
     },
     projectDetail: {
       dates: "Dates",
@@ -812,11 +1486,31 @@ export const translations: Record<Language, Translations> = {
       pipeline: "Pipeline",
     },
     pipeline: {
-      lead: "Lead",
-      quote: "Quote",
-      production: "Production",
-      delivery: "Delivery",
-      invoiced: "Invoiced",
+      contact:            "Initial Contact",
+      meeting:            "Client Meeting",
+      engineer_assigned:  "Engineer Assigned",
+      quote_plan:         "Quote Plan",
+      quote_signed:       "Quote Signed",
+      invoice_sent:       "Invoice Sent",
+      deposit_received:   "Deposit Received",
+      design_started:     "Architect Design Started",
+      design_completed:   "Design Completed",
+      client_signed:      "Client Signature",
+      components_ordered: "Components Ordered",
+      construction:       "Construction",
+      subcontractors:     "Subcontractor Works",
+      site_visit:         "Site Visit",
+      paid:               "Final Payment",
+      advanceButton:      "Advance Stage",
+      advanceTo:          "Advance to",
+      noPermission:       "You do not have permission to advance this stage.",
+      terminal:           "Project complete",
+      historyTitle:       "Stage History",
+      historyEmpty:       "No stage changes recorded yet.",
+      historyFrom:        "From",
+      historyTo:          "To",
+      historyBy:          "By",
+      notePlaceholder:    "Optional note (e.g. quote ref., remark)…",
     },
     documents: {
       title: "Documents",
@@ -833,6 +1527,15 @@ export const translations: Record<Language, Translations> = {
       scopeFinance: "Finance",
       scopeDesign: "Design",
       scopeLegal: "Legal",
+    },
+    roleScopes: {
+      title: "Document access by role",
+      subtitle: "Define which document scopes each role can view. These permissions are additive to individual user scopes.",
+      save: "Save policies",
+      saving: "Saving…",
+      saveOk: "Policies saved.",
+      loadError: "Failed to load access policies.",
+      noPolicy: "No policy defined.",
     },
     adminForms: {
       newCompany: "New company",
@@ -855,6 +1558,7 @@ export const translations: Record<Language, Translations> = {
       genericError: "Something went wrong.",
       changesSaved: "Changes saved.",
       documentAccess: "Document access by scope",
+      selectRolePlaceholder: "Select a role",
     },
     spaces: {
       clientTitle: "Client area",
@@ -863,6 +1567,296 @@ export const translations: Record<Language, Translations> = {
       subcontractorTitle: "Subcontractor area",
       subcontractorBody:
         "Access to assigned projects and deliverables will be available in an upcoming release.",
+    },
+    employees: {
+      title: "Employees",
+      subtitle: "Team members and subcontractors",
+      add: "Add employee",
+      newTitle: "New employee",
+      colName: "Name",
+      colRole: "Role",
+      colCompany: "Company",
+      colRate: "Daily rate",
+      colSkills: "Skills",
+      none: "No employees yet.",
+      loadError: "Failed to load employees.",
+      back: "Employees",
+      firstName: "First name",
+      lastName: "Last name",
+      role: "Role / Position",
+      skills: "Skills (comma-separated)",
+      skillsPlaceholder: "React, TypeScript, Node.js…",
+      dailyRate: "Daily rate (€)",
+      linkedUser: "Linked user account",
+      save: "Save",
+      saving: "Saving…",
+    },
+    tasks: {
+      title: "Tasks",
+      add: "Add task",
+      none: "No tasks yet.",
+      loadError: "Failed to load tasks.",
+      titleLabel: "Title",
+      description: "Description",
+      status: "Status",
+      dueDate: "Due date",
+      assignee: "Assignee",
+      noAssignee: "Unassigned",
+      statusOpen: "Open",
+      statusInProgress: "In progress",
+      statusDone: "Done",
+      save: "Save",
+      saving: "Saving…",
+      delete: "Delete",
+    },
+    tickets: {
+      title: "Tickets",
+      subtitle: "Track bugs, requests and incidents",
+      add: "New ticket",
+      new: "New",
+      none: "No tickets.",
+      loadError: "Failed to load tickets.",
+      titleLabel: "Title",
+      description: "Description",
+      status: "Status",
+      priority: "Priority",
+      type: "Type",
+      source: "Source",
+      project: "Project",
+      noProject: "No project",
+      assignee: "Assignee",
+      noAssignee: "Unassigned",
+      reporter: "Reported by",
+      createdAt: "Created at",
+      updatedAt: "Updated at",
+      filters: "Filters",
+      search: "Search…",
+      all: "All",
+      boardView: "Board view",
+      listView: "List view",
+      searchPlaceholder: "Search…",
+      allPriorities: "All priorities",
+      allTypes: "All types",
+      clearFilters: "Clear filters",
+      save: "Save",
+      saving: "Saving…",
+      cancel: "Cancel",
+      delete: "Delete",
+      confirmDelete: "Delete this ticket?",
+      comments: "Comments",
+      addComment: "Add a comment",
+      commentPlaceholder: "Your comment…",
+      sendComment: "Send",
+      sending: "Sending…",
+      backToList: "Back to list",
+      slaTitle: "SLA & Timelines",
+      slaCreated: "Created",
+      slaFirstResponse: "First response",
+      slaResolved: "Resolved",
+      slaStatus: "Current status",
+      slaMinutes: "min",
+      slaPending: "Awaiting",
+      statusOpen: "Open",
+      statusInProgress: "In progress",
+      statusInReview: "In review",
+      statusDone: "Done",
+      statusClosed: "Closed",
+      priorityLow: "Low",
+      priorityNormal: "Normal",
+      priorityHigh: "High",
+      priorityUrgent: "Urgent",
+      typeBug: "Bug",
+      typeFeature: "Feature",
+      typeTask: "Task",
+      typeSupport: "Support",
+      typeIncident: "Incident",
+      sourceInternal: "Internal",
+      sourceClient: "Client",
+      clientSection: {
+        title: "Support",
+        subtitle: "Open a ticket if you have an issue.",
+        open: "Open a ticket",
+        noTickets: "No tickets yet.",
+      },
+      devSpace: {
+        title: "Dev space",
+        subtitle: "Internal tickets and client requests to handle",
+        myAssigned: "My active tickets",
+        noAssigned: "No assigned tickets.",
+        urgentUnanswered: "Urgent without response",
+        waitingSince: "Waiting since",
+        noResponseFor: "No response for",
+        recentlyResolved: "Recently resolved",
+        resolvedIn: "resolved in",
+      },
+    },
+    timeTracking: {
+      title: "Time tracking",
+      add: "Add entry",
+      none: "No time entries yet.",
+      employee: "Employee",
+      hours: "Hours",
+      date: "Date",
+      description: "Description",
+      hourType: "Hour type",
+      hourTypeRegular: "Regular",
+      hourTypeNight: "Night",
+      hourTypeWeekend: "Weekend",
+      hourTypeTravel: "Travel",
+      hourTypeOnCall: "On-call",
+      save: "Save",
+      saving: "Saving…",
+      totalHours: "Total hours",
+      delete: "Delete",
+    },
+    quotes: {
+      title: "Quotes",
+      add: "New quote",
+      none: "No quotes yet.",
+      loadError: "Failed to load quotes.",
+      newTitle: "New quote",
+      back: "Quotes",
+      label: "Description",
+      quantity: "Qty",
+      unitPrice: "Unit price (€)",
+      total: "Total",
+      addLine: "Add line",
+      removeLine: "Remove",
+      notes: "Notes",
+      statusDraft: "Draft",
+      statusSent: "Sent",
+      statusAccepted: "Accepted",
+      statusRejected: "Rejected",
+      send: "Mark as sent",
+      accept: "Accept",
+      reject: "Reject",
+      viewPdf: "View PDF",
+      grandTotal: "Total (excl. tax)",
+      save: "Save",
+      saving: "Saving…",
+      deleteConfirm: "Delete this quote?",
+    },
+    invoices: {
+      title: "Invoices",
+      none: "No invoices yet.",
+      loadError: "Failed to load invoices.",
+      statusDraft: "Draft",
+      statusSent: "Sent",
+      statusPaid: "Paid",
+      markPaid: "Mark as paid",
+      viewPdf: "View PDF",
+      total: "Amount (excl. tax)",
+      paidAt: "Paid on",
+    },
+    classification: {
+      pending: "Classification in progress…",
+      done: "Classified",
+      error: "Classification error",
+      label: "Classification",
+      editLabel: "Edit classification",
+      save: "Save",
+    },
+    subcontractor: {
+      projectsTitle: "My projects",
+      projectsSubtitle: "Projects you are assigned to",
+      noProjects: "No assigned projects.",
+      loadError: "Failed to load your projects.",
+      myTasks: "My tasks",
+      markDone: "Mark as done",
+    },
+    clientSpace: {
+      projectsTitle: "My projects",
+      projectsSubtitle: "Track the progress of your projects",
+      noProjects: "No projects yet.",
+      loadError: "Failed to load your projects.",
+      quotesTitle: "Quotes",
+      invoicesTitle: "Invoices",
+    },
+    btpRh: {
+      title: "Construction & HR",
+      subtitle: "Executive KPIs, payroll time export, and compliance deadlines (certifications, insurance, etc.).",
+      kpisTitle: "Key indicators",
+      acceptedQuotes: "Accepted quotes total",
+      hoursLast30Days: "Hours logged (last 30 days)",
+      complianceDue30Days: "Deadlines due within 30 days",
+      projectsByStage: "Projects by pipeline stage",
+      payrollTitle: "Payroll export (CSV)",
+      from: "From",
+      to: "To",
+      companyFilter: "Company",
+      allCompanies: "All",
+      downloadCsv: "Download CSV",
+      downloading: "Preparing…",
+      deadlinesTitle: "Compliance deadlines",
+      addDeadline: "Add deadline",
+      titleLabel: "Title",
+      categoryLabel: "Category",
+      expiresLabel: "Expiry date",
+      notesLabel: "Notes",
+      companyLabel: "Company",
+      optionalEmployeeId: "Employee ID (optional)",
+      optionalProjectId: "Project ID (optional)",
+      save: "Save",
+      saving: "Saving…",
+      delete: "Delete",
+      confirmDelete: "Delete this deadline?",
+      loadError: "Failed to load construction/HR data.",
+      noDeadlines: "No deadlines yet.",
+      categoryCertification: "Certification / training",
+      categoryInsurance: "Insurance / certificate",
+      categoryMedical: "Medical visit",
+      categoryOther: "Other",
+      filterUpcoming: "Limit to deadlines in the next 90 days",
+      editDeadline: "Edit",
+      cancelEdit: "Cancel",
+      updateDeadline: "Update",
+      updating: "Updating…",
+      actualLaborCost: "Actual labor cost (all time)",
+      margin: "Margin (revenue − labor cost)",
+      pendingLeaves: "Pending leave requests",
+    },
+    leaves: {
+      title: "Leaves & Absences",
+      subtitle: "Manage absence requests: paid vacation, RTT, sick leave, training.",
+      addLeave: "Add absence",
+      noLeaves: "No absences recorded.",
+      loadError: "Failed to load absences.",
+      employeeLabel: "Employee",
+      typeLabel: "Type",
+      statusLabel: "Status",
+      startsLabel: "Start date",
+      endsLabel: "End date",
+      reasonLabel: "Reason",
+      save: "Save",
+      saving: "Saving…",
+      approve: "Approve",
+      approving: "Approving…",
+      reject: "Reject",
+      rejecting: "Rejecting…",
+      delete: "Delete",
+      confirmDelete: "Delete this absence?",
+      confirmApprove: "Approve this absence request?",
+      confirmReject: "Reject this absence request?",
+      filterStatus: "Status",
+      filterType: "Type",
+      allStatuses: "All statuses",
+      allTypes: "All types",
+      workingDays: "working days",
+      approvedBy: "Processed by",
+      approvedAt: "On",
+      typePaidVacation: "Paid vacation",
+      typeRtt: "RTT",
+      typeSick: "Sick leave",
+      typeTraining: "Training",
+      typeOther: "Other",
+      statusPending: "Pending",
+      statusApproved: "Approved",
+      statusRejected: "Rejected",
+      statusCancelled: "Cancelled",
+      allCompanies: "All companies",
+      allEmployees: "All employees",
+      viewList: "List",
+      viewCalendar: "Calendar",
     },
   },
 };

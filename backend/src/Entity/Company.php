@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[UniqueEntity(fields: ['slug'], message: 'A company with this slug already exists.')]
 #[ApiResource(
-    operations: [new Get(), new GetCollection()],
+    operations: [],
     normalizationContext: ['groups' => ['company:read']],
     security: "is_granted('ROLE_ADMIN')",
 )]
@@ -27,13 +25,13 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['company:read', 'user:read'])]
+    #[Groups(['company:read', 'user:read', 'compliance_deadline:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
-    #[Groups(['company:read', 'user:read'])]
+    #[Groups(['company:read', 'user:read', 'compliance_deadline:read'])]
     private string $name;
 
     #[ORM\Column(length: 255, unique: true)]
@@ -55,11 +53,16 @@ class Company
     #[ORM\OneToMany(targetEntity: Client::class, mappedBy: 'company', orphanRemoval: true)]
     private Collection $clients;
 
+    /** @var Collection<int, Employee> */
+    #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'company', orphanRemoval: true)]
+    private Collection $employees;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->users = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->employees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,5 +130,11 @@ class Company
     public function getClients(): Collection
     {
         return $this->clients;
+    }
+
+    /** @return Collection<int, Employee> */
+    public function getEmployees(): Collection
+    {
+        return $this->employees;
     }
 }

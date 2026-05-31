@@ -43,6 +43,16 @@ class Document
     #[Groups(['document:read'])]
     private \DateTimeImmutable $createdAt;
 
+    /** Classification status: pending | done | error */
+    #[ORM\Column(length: 32, nullable: true)]
+    #[Groups(['document:read'])]
+    private ?string $classificationStatus = null;
+
+    /** Suggested classification label */
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['document:read'])]
+    private ?string $classificationLabel = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -116,5 +126,29 @@ class Document
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getClassificationStatus(): ?string
+    {
+        return $this->classificationStatus;
+    }
+
+    public function setClassificationStatus(?string $classificationStatus): static
+    {
+        $this->classificationStatus = $classificationStatus;
+
+        return $this;
+    }
+
+    public function getClassificationLabel(): ?string
+    {
+        return $this->classificationLabel;
+    }
+
+    public function setClassificationLabel(?string $classificationLabel): static
+    {
+        $this->classificationLabel = $classificationLabel;
+
+        return $this;
     }
 }

@@ -1,0 +1,14 @@
+# Sentry integration — activate by installing the bundle:
+#   composer require sentry/sentry-symfony
+#
+# Then set SENTRY_DSN in your .env.local or environment.
+# This file is a no-op until the bundle is installed.
+
+# when@prod:
+#     sentry:
+#         dsn: '%env(SENTRY_DSN)%'
+#         options:
+#             environment: '%kernel.environment%'
+#             release: '%env(default::APP_VERSION)%'
+#             traces_sample_rate: 0.1
+#             send_default_pii: false

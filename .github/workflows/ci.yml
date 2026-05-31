@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  # ─── Backend ──────────────────────────────────────────────────────────────────
+  backend:
+    name: Backend (PHP / Symfony)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: orkestria
+          POSTGRES_PASSWORD: orkestria
+          POSTGRES_DB: orkestria_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: pdo_pgsql, intl, mbstring
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Generate JWT keys
+        run: |
+          mkdir -p config/jwt
+          openssl genrsa -out config/jwt/private.pem 4096
+          openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgresql://orkestria:orkestria@localhost:5432/orkestria_test
+          APP_ENV: test
+          JWT_SECRET_KEY: "%kernel.project_dir%/config/jwt/private.pem"
+          JWT_PUBLIC_KEY: "%kernel.project_dir%/config/jwt/public.pem"
+          JWT_PASSPHRASE: ""
+        run: php bin/console doctrine:migrations:migrate --no-interaction
+
+      - name: Run tests
+        env:
+          DATABASE_URL: postgresql://orkestria:orkestria@localhost:5432/orkestria_test
+          APP_ENV: test
+          JWT_SECRET_KEY: "%kernel.project_dir%/config/jwt/private.pem"
+          JWT_PUBLIC_KEY: "%kernel.project_dir%/config/jwt/public.pem"
+          JWT_PASSPHRASE: ""
+        run: php bin/phpunit
+
+  # ─── Frontend ─────────────────────────────────────────────────────────────────
+  frontend:
+    name: Frontend (Next.js)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080
+        run: npm run build

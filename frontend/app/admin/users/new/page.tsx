@@ -3,21 +3,20 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@/lib/zod-resolver";
 import { FlashBag } from "@/components/FlashBag";
 import { useLanguage } from "@/contexts/language-context";
 import { useCompaniesQuery, useCreateUserMutation } from "@/lib/hooks/queries";
+import { ROLE_GROUPS } from "@/lib/api";
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
-  roleAdmin: z.boolean(),
-  roleClient: z.boolean(),
-  roleSubcontractor: z.boolean(),
+  role: z.string().min(1),
   companyId: z.string(),
 });
 
@@ -25,15 +24,15 @@ type FormData = z.infer<typeof schema>;
 
 export default function NewUserPage() {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const tf = t.adminForms;
   const [serverError, setServerError] = useState<string | null>(null);
   const { data: companies = [] } = useCompaniesQuery();
   const createMutation = useCreateUserMutation();
+  const roleGroups = ROLE_GROUPS[lang];
 
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
@@ -43,20 +42,13 @@ export default function NewUserPage() {
       password: "",
       firstName: "",
       lastName: "",
-      roleAdmin: false,
-      roleClient: false,
-      roleSubcontractor: false,
+      role: "",
       companyId: "",
     },
   });
 
   async function onSubmit(data: FormData) {
     setServerError(null);
-    const roles: string[] = [];
-    if (data.roleAdmin) roles.push("ROLE_ADMIN");
-    if (data.roleClient) roles.push("ROLE_CLIENT");
-    if (data.roleSubcontractor) roles.push("ROLE_SUBCONTRACTOR");
-
     const companyId =
       data.companyId === "" ? null : Number.parseInt(data.companyId, 10);
 
@@ -66,7 +58,7 @@ export default function NewUserPage() {
         password: data.password,
         firstName: data.firstName.trim(),
         lastName: data.lastName.trim(),
-        roles: roles.length ? roles : undefined,
+        roles: data.role ? [data.role] : undefined,
         companyId: companyId !== null && Number.isFinite(companyId) ? companyId : null,
       });
       router.push(`/admin/users/${user.id}`);
@@ -106,6 +98,7 @@ export default function NewUserPage() {
             {errors.lastName && <p className="mt-1 text-xs text-red-600">{errors.lastName.message}</p>}
           </div>
         </div>
+
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300">{t.register.emailLabel}</label>
           <input
@@ -115,6 +108,7 @@ export default function NewUserPage() {
           />
           {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
         </div>
+
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.password}</label>
           <input
@@ -125,39 +119,25 @@ export default function NewUserPage() {
           {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>}
         </div>
 
-        <fieldset className="space-y-2">
-          <legend className="text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.rolesLabel}</legend>
-          <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-            <Controller
-              name="roleAdmin"
-              control={control}
-              render={({ field }) => (
-                <input type="checkbox" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
-              )}
-            />
-            {t.admin}
-          </label>
-          <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-            <Controller
-              name="roleClient"
-              control={control}
-              render={({ field }) => (
-                <input type="checkbox" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
-              )}
-            />
-            Client
-          </label>
-          <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-zinc-300">
-            <Controller
-              name="roleSubcontractor"
-              control={control}
-              render={({ field }) => (
-                <input type="checkbox" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
-              )}
-            />
-            Subcontractor
-          </label>
-        </fieldset>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.rolesLabel}</label>
+          <select
+            {...register("role")}
+            className="mt-1 w-full rounded-lg border border-slate-300 dark:border-zinc-600 bg-white dark:bg-zinc-950 px-3 py-2 text-sm"
+          >
+            <option value="">{tf.selectRolePlaceholder}</option>
+            {roleGroups.map((group) => (
+              <optgroup key={group.label} label={group.label}>
+                {group.roles.map((r) => (
+                  <option key={r.value} value={r.value}>
+                    {r.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+          {errors.role && <p className="mt-1 text-xs text-red-600">{errors.role.message}</p>}
+        </div>
 
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-zinc-300">{tf.companyAssignment}</label>

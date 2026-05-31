@@ -27,6 +27,29 @@ final class CompanyWriteController extends AbstractController
         private readonly ValidatorInterface $validator,
     ) {}
 
+    #[Route('', name: 'list', methods: ['GET'])]
+    public function list(): JsonResponse
+    {
+        $companies = $this->companyRepository->findBy([], ['createdAt' => 'DESC']);
+        $json = $this->serializer->serialize($companies, 'json', ['groups' => ['company:read']]);
+
+        return new JsonResponse($json, Response::HTTP_OK, [], true);
+    }
+
+    #[Route('/{id}', name: 'get', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function get(int $id): JsonResponse
+    {
+        $company = $this->companyRepository->find($id);
+
+        if ($company === null) {
+            return $this->json(['message' => 'Company not found.'], Response::HTTP_NOT_FOUND);
+        }
+
+        $json = $this->serializer->serialize($company, 'json', ['groups' => ['company:read']]);
+
+        return new JsonResponse($json, Response::HTTP_OK, [], true);
+    }
+
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {

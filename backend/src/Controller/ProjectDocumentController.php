@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\DocumentScope;
 use App\Entity\User;
+use App\Message\ClassifyDocumentMessage;
 use App\Repository\DocumentRepository;
 use App\Repository\ProjectRepository;
 use App\Service\DocumentStorageService;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -29,6 +31,7 @@ final class ProjectDocumentController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly DocumentStorageService $documentStorage,
         private readonly SerializerInterface $serializer,
+        private readonly MessageBusInterface $bus,
     ) {}
 
     #[Route('', name: 'list', methods: ['GET'], requirements: ['projectId' => '\d+'])]
@@ -101,9 +104,12 @@ final class ProjectDocumentController extends AbstractController
         $document->setFilePath($relative);
         $document->setScope($scope);
         $document->setProject($project);
+        $document->setClassificationStatus('pending');
 
         $this->entityManager->persist($document);
         $this->entityManager->flush();
+
+        $this->bus->dispatch(new ClassifyDocumentMessage($document->getId()));
 
         $json = $this->serializer->serialize($document, 'json', ['groups' => ['document:read']]);
 

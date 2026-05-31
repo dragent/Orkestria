@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { FlashBag } from "@/components/FlashBag";
 import { useLanguage } from "@/contexts/language-context";
 import { useCompaniesQuery, useProjectsQuery, useUsersQuery } from "@/lib/hooks/queries";
@@ -34,6 +35,9 @@ export default function AdminHomePage() {
   const recentUsers: User[] = [...users]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
+
+  const [usersOpen, setUsersOpen] = useState(true);
+  const [companiesOpen, setCompaniesOpen] = useState(true);
 
   const serverError = usersError || companiesError || projectsError ? td.loadError : null;
   const dateLocale = lang === "fr" ? "fr-FR" : "en-GB";
@@ -96,7 +100,24 @@ export default function AdminHomePage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900">
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-zinc-700">
-            <h2 className="font-semibold text-brand-navy dark:text-white">{td.recentUsers}</h2>
+            <button
+              onClick={() => setUsersOpen((o) => !o)}
+              className="flex items-center gap-2 group"
+              aria-expanded={usersOpen}
+            >
+              <h2 className="font-semibold text-brand-navy dark:text-white group-hover:text-brand-purple dark:group-hover:text-brand-purple transition-colors">
+                {td.recentUsers}
+              </h2>
+              <svg
+                className={`h-4 w-4 text-slate-400 dark:text-zinc-500 transition-transform duration-200 ${usersOpen ? "rotate-0" : "-rotate-90"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
             <Link
               href="/admin/users"
               className="text-sm text-brand-purple hover:text-brand-navy dark:hover:text-white font-medium transition-colors"
@@ -105,51 +126,70 @@ export default function AdminHomePage() {
             </Link>
           </div>
 
-          {loading ? (
-            <div className="p-6 space-y-3">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-10 rounded-lg bg-slate-100 dark:bg-zinc-800 animate-pulse" />
-              ))}
-            </div>
-          ) : recentUsers.length === 0 ? (
-            <p className="px-6 py-8 text-sm text-slate-400 dark:text-zinc-500 text-center">{td.noUsers}</p>
-          ) : (
-            <ul className="divide-y divide-slate-100 dark:divide-zinc-700">
-              {recentUsers.map((user) => (
-                <li key={user.id}>
-                  <Link
-                    href={`/admin/users/${user.id}`}
-                    className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-linear-to-br from-brand-purple to-brand-blue flex items-center justify-center text-white text-xs font-semibold shrink-0">
-                        {user.firstName[0]}
-                        {user.lastName[0]}
+          {usersOpen && (
+            loading ? (
+              <div className="p-6 space-y-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="h-10 rounded-lg bg-slate-100 dark:bg-zinc-800 animate-pulse" />
+                ))}
+              </div>
+            ) : recentUsers.length === 0 ? (
+              <p className="px-6 py-8 text-sm text-slate-400 dark:text-zinc-500 text-center">{td.noUsers}</p>
+            ) : (
+              <ul className="divide-y divide-slate-100 dark:divide-zinc-700">
+                {recentUsers.map((user) => (
+                  <li key={user.id}>
+                    <Link
+                      href={`/admin/users/${user.id}`}
+                      className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-full bg-linear-to-br from-brand-purple to-brand-blue flex items-center justify-center text-white text-xs font-semibold shrink-0">
+                          {user.firstName[0]}
+                          {user.lastName[0]}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-slate-800 dark:text-zinc-100">
+                            {user.firstName} {user.lastName}
+                          </p>
+                          <p className="text-xs text-slate-400 dark:text-zinc-500">{user.email}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-slate-800 dark:text-zinc-100">
-                          {user.firstName} {user.lastName}
-                        </p>
-                        <p className="text-xs text-slate-400 dark:text-zinc-500">{user.email}</p>
-                      </div>
-                    </div>
-                    <span className="text-xs text-slate-400 dark:text-zinc-500">
-                      {new Date(user.createdAt).toLocaleDateString(dateLocale, {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                      <span className="text-xs text-slate-400 dark:text-zinc-500">
+                        {new Date(user.createdAt).toLocaleDateString(dateLocale, {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )
           )}
         </div>
 
         <div className="rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900">
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-zinc-700">
-            <h2 className="font-semibold text-brand-navy dark:text-white">{td.companies}</h2>
+            <button
+              onClick={() => setCompaniesOpen((o) => !o)}
+              className="flex items-center gap-2 group"
+              aria-expanded={companiesOpen}
+            >
+              <h2 className="font-semibold text-brand-navy dark:text-white group-hover:text-brand-purple dark:group-hover:text-brand-purple transition-colors">
+                {td.companies}
+              </h2>
+              <svg
+                className={`h-4 w-4 text-slate-400 dark:text-zinc-500 transition-transform duration-200 ${companiesOpen ? "rotate-0" : "-rotate-90"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
             <Link
               href="/admin/companies"
               className="text-sm text-brand-purple hover:text-brand-navy dark:hover:text-white font-medium transition-colors"
@@ -158,33 +198,35 @@ export default function AdminHomePage() {
             </Link>
           </div>
 
-          {loading ? (
-            <div className="p-6 space-y-3">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-8 rounded-lg bg-slate-100 dark:bg-zinc-800 animate-pulse" />
-              ))}
-            </div>
-          ) : companies.length === 0 ? (
-            <p className="px-6 py-8 text-sm text-slate-400 dark:text-zinc-500 text-center">{td.noCompanies}</p>
-          ) : (
-            <ul className="divide-y divide-slate-100 dark:divide-zinc-700">
-              {companies.map((company) => (
-                <li key={company.id}>
-                  <Link
-                    href={`/admin/companies/${company.id}`}
-                    className="flex items-center gap-3 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <div className="h-8 w-8 rounded-lg bg-brand-navy/10 dark:bg-white/10 flex items-center justify-center shrink-0">
-                      <span className="text-xs font-bold text-brand-navy dark:text-white">{company.name[0]}</span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-slate-800 dark:text-zinc-100">{company.name}</p>
-                      <p className="text-xs text-slate-400 dark:text-zinc-500">{company.slug}</p>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {companiesOpen && (
+            loading ? (
+              <div className="p-6 space-y-3">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-8 rounded-lg bg-slate-100 dark:bg-zinc-800 animate-pulse" />
+                ))}
+              </div>
+            ) : companies.length === 0 ? (
+              <p className="px-6 py-8 text-sm text-slate-400 dark:text-zinc-500 text-center">{td.noCompanies}</p>
+            ) : (
+              <ul className="divide-y divide-slate-100 dark:divide-zinc-700">
+                {companies.map((company) => (
+                  <li key={company.id}>
+                    <Link
+                      href={`/admin/companies/${company.id}`}
+                      className="flex items-center gap-3 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-zinc-800 transition-colors"
+                    >
+                      <div className="h-8 w-8 rounded-lg bg-brand-navy/10 dark:bg-white/10 flex items-center justify-center shrink-0">
+                        <span className="text-xs font-bold text-brand-navy dark:text-white">{company.name[0]}</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-slate-800 dark:text-zinc-100">{company.name}</p>
+                        <p className="text-xs text-slate-400 dark:text-zinc-500">{company.slug}</p>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )
           )}
         </div>
       </div>

@@ -150,10 +150,6 @@ export default function HomePage() {
           />
 
           <div className="relative z-10 mx-auto max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-blue animate-pulse" />
-              {h.badge}
-            </div>
             <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
               {h.heroTitle}{" "}
               <span className="bg-linear-to-r from-brand-purple-light to-brand-blue bg-clip-text text-transparent">
