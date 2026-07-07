@@ -16,7 +16,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const router = useRouter();
   const queryClient = useQueryClient();
   const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
-  const [ready, setReady] = useState(false);
+  const ready = !isLoading && !!me && !isError;
   const { data: me, isLoading, isError } = useMeQuery();
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -34,10 +34,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       router.replace("/login");
       return;
     }
-    if (!isLoading && me) {
-      setReady(true);
-    }
-  }, [router, isError, isLoading, me, notifyAuthChanged, queryClient]);
+  }, [router, isError, notifyAuthChanged, queryClient]);
 
   function handleLogout() {
     removeToken();

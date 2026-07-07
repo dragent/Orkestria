@@ -13,6 +13,8 @@ export default function DevDashboardPage() {
 
   // Single call — filter client-side; avoids waterfall
   const { data: allTickets = [] } = useTicketsQuery();
+  // eslint-disable-next-line react-hooks/purity
+  const now = Date.now();
 
   const myId = me?.id;
 
@@ -80,7 +82,7 @@ export default function DevDashboardPage() {
           <ul className="divide-y divide-red-100 dark:divide-red-900/40">
             {urgentUnanswered.map((tkt) => {
               const ageMinutes = Math.round(
-                (Date.now() - new Date(tkt.createdAt).getTime()) / 60000
+                (now - new Date(tkt.createdAt).getTime()) / 60000
               );
               return (
                 <li key={tkt.id} className="px-6 py-3 flex items-center justify-between gap-4">
@@ -118,7 +120,7 @@ export default function DevDashboardPage() {
           <ul className="divide-y divide-[var(--border)]">
             {myActive.map((tkt) => {
               const ageMinutes = tkt.firstResponseAt === null
-                ? Math.round((Date.now() - new Date(tkt.createdAt).getTime()) / 60000)
+                ? Math.round((now - new Date(tkt.createdAt).getTime()) / 60000)
                 : null;
               const showSlaWarning =
                 ageMinutes !== null &&

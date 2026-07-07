@@ -24,18 +24,13 @@ function buildPolicyMap(entries: Array<{ role: string; documentScopes: string[] 
 export default function RoleScopesPage() {
   const { t, lang } = useLanguage();
   const tr = t.roleScopes;
-  const [policies, setPolicies] = useState<PolicyMap>({});
   const [saveOk, setSaveOk] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const { data = [], isLoading, isError, error } = useRoleScopePoliciesQuery();
+  const policies = useMemo(() => buildPolicyMap(data), [data]);
   const saveMutation = useSaveRoleScopePoliciesMutation();
 
-  useEffect(() => {
-    if (data.length > 0) {
-      setPolicies(buildPolicyMap(data));
-    }
-  }, [data]);
 
   const allRoles = ROLE_GROUPS[lang].flatMap((g) => g.roles);
   const scopes = DOCUMENT_SCOPES;

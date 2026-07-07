@@ -224,7 +224,7 @@ export function ProjectStageStepper({ project, userRoles }: Props) {
                 <div className="flex flex-col items-end gap-0.5">
                   {entry.note && (
                     <span className="text-xs text-(--foreground) italic max-w-xs text-right">
-                      "{entry.note}"
+                      &ldquo;{entry.note}&rdquo;
                     </span>
                   )}
                   <span className="text-xs text-(--muted)">
