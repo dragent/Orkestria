@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 
 type Theme = "light" | "dark";
 
@@ -21,21 +15,24 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 const STORAGE_KEY = "orkestria-theme";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const resolved: Theme = stored ?? (prefersDark ? "dark" : "light");
-    applyTheme(resolved);
-    setThemeState(resolved);
-  }, []);
-
   const applyTheme = (next: Theme) => {
     const root = document.documentElement;
     root.classList.toggle("dark", next === "dark");
     localStorage.setItem(STORAGE_KEY, next);
   };
+
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "light";
+    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+    if (stored === "light" || stored === "dark") {
+      applyTheme(stored);
+      return stored;
+    }
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const resolved: Theme = prefersDark ? "dark" : "light";
+    applyTheme(resolved);
+    return resolved;
+  });
 
   const setTheme = useCallback((next: Theme) => {
     applyTheme(next);

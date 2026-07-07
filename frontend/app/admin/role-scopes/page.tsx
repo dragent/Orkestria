@@ -31,11 +31,14 @@ export default function RoleScopesPage() {
   const { data = [], isLoading, isError, error } = useRoleScopePoliciesQuery();
   const saveMutation = useSaveRoleScopePoliciesMutation();
 
+  // Initialize editable policies from fetched data (effect is intentional here)
   useEffect(() => {
-    if (data.length > 0) {
+    if (data.length > 0 && Object.keys(policies).length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPolicies(buildPolicyMap(data));
     }
-  }, [data]);
+  }, [data, policies]);
+
 
   const allRoles = ROLE_GROUPS[lang].flatMap((g) => g.roles);
   const scopes = DOCUMENT_SCOPES;

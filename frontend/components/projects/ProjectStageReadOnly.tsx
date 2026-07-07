@@ -10,11 +10,11 @@ interface Props {
 }
 
 export function ProjectStageReadOnly({ currentStage, stageChangedAt }: Props) {
-  const { t, locale } = useLanguage();
+  const { t, lang } = useLanguage();
   const tp = t.pipeline;
   const currentIdx = PIPELINE_STAGES.indexOf(currentStage);
   const pct = Math.round(((currentIdx + 1) / PIPELINE_STAGES.length) * 100);
-  const dateLocale = locale === "fr" ? "fr-FR" : "en-US";
+  const dateLocale = lang === "fr" ? "fr-FR" : "en-US";
 
   return (
     <div className="space-y-3">
