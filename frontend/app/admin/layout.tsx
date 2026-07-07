@@ -16,9 +16,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
+  const { data: me, isLoading: meLoading, isError: meError } = useMeQuery();
   const ready = !meLoading && !!me && !meError;
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: me, isLoading: meLoading, isError: meError } = useMeQuery();
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
 

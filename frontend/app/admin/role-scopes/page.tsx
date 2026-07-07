@@ -24,12 +24,20 @@ function buildPolicyMap(entries: Array<{ role: string; documentScopes: string[] 
 export default function RoleScopesPage() {
   const { t, lang } = useLanguage();
   const tr = t.roleScopes;
+  const [policies, setPolicies] = useState<PolicyMap>({});
   const [saveOk, setSaveOk] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const { data = [], isLoading, isError, error } = useRoleScopePoliciesQuery();
-  const policies = useMemo(() => buildPolicyMap(data), [data]);
   const saveMutation = useSaveRoleScopePoliciesMutation();
+
+  // Initialize editable policies from fetched data (effect is intentional here)
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => {
+    if (data.length > 0 && Object.keys(policies).length === 0) {
+      setPolicies(buildPolicyMap(data));
+    }
+  }, [data, policies]);
 
 
   const allRoles = ROLE_GROUPS[lang].flatMap((g) => g.roles);

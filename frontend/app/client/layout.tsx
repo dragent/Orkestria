@@ -16,8 +16,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const router = useRouter();
   const queryClient = useQueryClient();
   const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
-  const ready = !isLoading && !!me && !isError;
   const { data: me, isLoading, isError } = useMeQuery();
+  const ready = !isLoading && !!me && !isError;
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const isEmployee = me?.roles?.some((r) => ORKESTRIA_ROLES.includes(r)) ?? false;

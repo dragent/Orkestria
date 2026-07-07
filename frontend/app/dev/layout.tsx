@@ -16,8 +16,8 @@ export default function DevLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
-  const ready = !isLoading && !!me && !isError;
   const { data: me, isLoading, isError } = useMeQuery();
+  const ready = !isLoading && !!me && !isError;
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
 

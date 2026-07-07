@@ -994,7 +994,7 @@ function buildLeaveQuery(filters?: LeaveListFilters): string {
   if (!filters) return "";
   const params = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
+    if (value !== undefined && value !== null && value !== ("" as unknown)) {
       params.append(key, String(value));
     }
   });
