@@ -32,9 +32,9 @@ export default function RoleScopesPage() {
   const saveMutation = useSaveRoleScopePoliciesMutation();
 
   // Initialize editable policies from fetched data (effect is intentional here)
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (data.length > 0 && Object.keys(policies).length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPolicies(buildPolicyMap(data));
     }
   }, [data, policies]);
