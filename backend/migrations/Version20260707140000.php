@@ -24,7 +24,7 @@ final class Version20260707140000 extends AbstractMigration
         $this->addSql('ALTER TABLE client ADD city VARCHAR(100) DEFAULT NULL');
         $this->addSql('ALTER TABLE client ADD postal_code VARCHAR(20) DEFAULT NULL');
         $this->addSql('ALTER TABLE client ADD country VARCHAR(100) DEFAULT NULL');
-        $this->addSql('ALTER TABLE client ADD notes LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE client ADD notes TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE client ADD tags JSON NOT NULL DEFAULT \'[]\'');
     }
 
