@@ -31,6 +31,10 @@ class Client
     #[Groups(['client:read', 'project:read'])]
     private string $email;
 
+    #[ORM\Column(length: 20, options: ['default' => 'lead'])]
+    #[Groups(['client:read', 'project:read'])]
+    private string $status = 'lead';
+
     #[ORM\ManyToOne(inversedBy: 'clients')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     #[Groups(['client:read'])]
@@ -75,6 +79,18 @@ class Client
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
