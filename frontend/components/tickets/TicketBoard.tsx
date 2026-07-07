@@ -146,13 +146,16 @@ function Card({ ticket, basePath }: { ticket: ApiTicket; basePath: string }) {
     opacity: isDragging ? 0.5 : 1,
   };
 
+  // eslint-disable-next-line react-hooks/purity
+  const now = Date.now();
+
   const isUrgentNoResponse =
     (ticket.priority === "urgent" || ticket.priority === "high") &&
     ["open", "in_progress"].includes(ticket.status) &&
     ticket.firstResponseAt === null;
 
   const ageMinutes = isUrgentNoResponse
-    ? Math.round((Date.now() - new Date(ticket.createdAt).getTime()) / 60000)
+    ? Math.round((now - new Date(ticket.createdAt).getTime()) / 60000)
     : null;
 
   return (

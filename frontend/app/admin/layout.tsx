@@ -16,9 +16,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
-  const [ready, setReady] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: me, isLoading: meLoading, isError: meError } = useMeQuery();
+  const ready = !meLoading && !!me && !meError;
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
 
@@ -141,14 +141,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       router.replace("/login");
       return;
     }
-    if (!meLoading && me) {
-      setReady(true);
-    }
-  }, [router, meError, meLoading, me, notifyAuthChanged, queryClient]);
-
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [pathname]);
+  }, [router, meError, notifyAuthChanged, queryClient]);
 
   function handleLogout() {
     removeToken();

@@ -5,6 +5,7 @@ import {
   adminBtpApi,
   clientsApi,
   clientTicketsApi,
+  clientProjectsApi,
   companiesApi,
   documentsApi,
   employeesApi,
@@ -202,6 +203,23 @@ export function useProjectQuery(id: number | undefined) {
   return useQuery({
     queryKey: ["projects", id, sessionRevision] as const,
     queryFn: () => projectsApi.get(id!),
+    enabled: id != null && Number.isFinite(id),
+  });
+}
+
+export function useClientProjectsQuery() {
+  const sessionRevision = useAuthStore((s) => s.sessionRevision);
+  return useQuery({
+    queryKey: ["clientProjects", sessionRevision] as const,
+    queryFn: () => clientProjectsApi.list(),
+  });
+}
+
+export function useClientProjectQuery(id: number | undefined) {
+  const sessionRevision = useAuthStore((s) => s.sessionRevision);
+  return useQuery({
+    queryKey: ["clientProjects", id, sessionRevision] as const,
+    queryFn: () => clientProjectsApi.get(id!),
     enabled: id != null && Number.isFinite(id),
   });
 }

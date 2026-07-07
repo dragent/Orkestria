@@ -444,6 +444,13 @@ export const projectsApi = {
     ),
 };
 
+// ─── Client Projects (self-service portal) ────────────────────────────────────
+
+export const clientProjectsApi = {
+  list: () => apiFetchAuth<ApiProject[]>("/api/client/projects"),
+  get: (id: number) => apiFetchAuth<ApiProject>(`/api/client/projects/${id}`),
+};
+
 // ─── Role Scope Policies ──────────────────────────────────────────────────────
 
 export type RoleScopePolicyEntry = {
@@ -994,7 +1001,7 @@ function buildLeaveQuery(filters?: LeaveListFilters): string {
   if (!filters) return "";
   const params = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
+    if (value !== undefined && value !== null && value !== ("" as unknown)) {
       params.append(key, String(value));
     }
   });

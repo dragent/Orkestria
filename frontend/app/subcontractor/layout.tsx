@@ -3,7 +3,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useLanguage } from "@/contexts/language-context";
 import { useTheme } from "@/contexts/theme-context";
@@ -15,8 +15,8 @@ export default function SubcontractorLayout({ children }: { children: React.Reac
   const router = useRouter();
   const queryClient = useQueryClient();
   const notifyAuthChanged = useAuthStore((s) => s.notifyAuthChanged);
-  const [ready, setReady] = useState(false);
   const { data: me, isLoading, isError } = useMeQuery();
+  const ready = !isLoading && !!me && !isError;
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
 
@@ -32,10 +32,7 @@ export default function SubcontractorLayout({ children }: { children: React.Reac
       router.replace("/login");
       return;
     }
-    if (!isLoading && me) {
-      setReady(true);
-    }
-  }, [router, isError, isLoading, me, notifyAuthChanged, queryClient]);
+  }, [router, isError, notifyAuthChanged, queryClient]);
 
   function handleLogout() {
     removeToken();

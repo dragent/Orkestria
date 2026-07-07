@@ -15,7 +15,7 @@ const mockQuotesQuery = jest.fn();
 const mockInvoicesQuery = jest.fn();
 
 jest.mock("@/lib/hooks/queries", () => ({
-  useProjectQuery: (id: number | undefined) => mockProjectQuery(id),
+  useClientProjectQuery: (id: number | undefined) => mockProjectQuery(id),
   useQuotesQuery: (id: number | undefined) => mockQuotesQuery(id),
   useInvoicesQuery: (id: number | undefined) => mockInvoicesQuery(id),
   useAcceptQuoteMutation: () => ({ mutate: acceptMutate, isPending: false }),
@@ -38,6 +38,7 @@ const projectFixture: ApiProject = {
   startDate: "2026-02-01T00:00:00Z",
   endDate: null,
   createdAt: "2026-01-15T00:00:00Z",
+  stageChangedAt: "2026-03-01T00:00:00Z",
 };
 
 function buildQuote(overrides: Partial<ApiQuote> = {}): ApiQuote {

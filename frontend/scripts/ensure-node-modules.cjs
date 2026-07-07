@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * If node_modules is missing or incomplete (common after git pull or Docker volume drift),
  * run npm ci once before dev/build.
