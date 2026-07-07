@@ -28,10 +28,12 @@ final class Version20260531120000 extends AbstractMigration
         $this->addSql("UPDATE project SET pipeline_stage = 'paid'         WHERE pipeline_stage = 'invoiced'");
 
         // Widen column to accommodate longer new values (e.g. 'components_ordered' = 19 chars)
-        $this->addSql('ALTER TABLE project MODIFY pipeline_stage VARCHAR(32) NOT NULL');
+        // PostgreSQL syntax (MySQL MODIFY is not supported)
+        $this->addSql('ALTER TABLE project ALTER COLUMN pipeline_stage TYPE VARCHAR(32)');
 
         // Add stage_changed_at column (nullable, set on future transitions)
-        $this->addSql('ALTER TABLE project ADD stage_changed_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
+        // Use TIMESTAMP(0) WITHOUT TIME ZONE for PostgreSQL compatibility
+        $this->addSql('ALTER TABLE project ADD stage_changed_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -45,6 +47,6 @@ final class Version20260531120000 extends AbstractMigration
         $this->addSql("UPDATE project SET pipeline_stage = 'delivery'   WHERE pipeline_stage = 'site_visit'");
         $this->addSql("UPDATE project SET pipeline_stage = 'invoiced'   WHERE pipeline_stage = 'paid'");
 
-        $this->addSql('ALTER TABLE project MODIFY pipeline_stage VARCHAR(32) NOT NULL');
+        $this->addSql('ALTER TABLE project ALTER COLUMN pipeline_stage TYPE VARCHAR(32)');
     }
 }
