@@ -345,6 +345,13 @@ export type ApiClient = {
   email: string;
   company: { id: number; name: string; slug: string };
   createdAt: string;
+  phone?: string | null;
+  address?: string | null;
+  city?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+  notes?: string | null;
+  tags?: string[];
 };
 
 export type ApiProject = {
