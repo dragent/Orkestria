@@ -5,8 +5,8 @@ import { useParams } from "next/navigation";
 import { useLanguage } from "@/contexts/language-context";
 import {
   useAcceptQuoteMutation,
+  useClientProjectQuery,
   useInvoicesQuery,
-  useProjectQuery,
   useQuotesQuery,
   useRejectQuoteMutation,
 } from "@/lib/hooks/queries";
@@ -29,7 +29,7 @@ export default function ClientProjectDetailPage() {
   const td = t.projectDetail;
   const cs = t.clientSpace;
 
-  const { data: project, isLoading, isError } = useProjectQuery(
+  const { data: project, isLoading, isError } = useClientProjectQuery(
     Number.isFinite(projectId) ? projectId : undefined
   );
   const { data: quotes = [], isLoading: quotesLoading } = useQuotesQuery(

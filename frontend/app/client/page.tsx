@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/contexts/language-context";
-import { useProjectsQuery } from "@/lib/hooks/queries";
+import { useClientProjectsQuery } from "@/lib/hooks/queries";
 import { formatPipeline } from "@/lib/pipeline-label";
 
 export default function ClientHomePage() {
   const { t } = useLanguage();
   const cs = t.clientSpace;
-  const { data: projects, isLoading, isError } = useProjectsQuery();
+  const { data: projects, isLoading, isError } = useClientProjectsQuery();
 
   return (
     <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
