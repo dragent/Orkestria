@@ -437,6 +437,13 @@ export const projectsApi = {
     ),
 };
 
+// ─── Client Projects (self-service portal) ────────────────────────────────────
+
+export const clientProjectsApi = {
+  list: () => apiFetchAuth<ApiProject[]>("/api/client/projects"),
+  get: (id: number) => apiFetchAuth<ApiProject>(`/api/client/projects/${id}`),
+};
+
 // ─── Role Scope Policies ──────────────────────────────────────────────────────
 
 export type RoleScopePolicyEntry = {

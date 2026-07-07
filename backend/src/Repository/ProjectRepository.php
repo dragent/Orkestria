@@ -89,4 +89,21 @@ final class ProjectRepository extends ServiceEntityRepository
 
         return $out;
     }
+
+    /**
+     * @return list<Project>
+     */
+    public function findByClientEmail(string $email): array
+    {
+        /** @var list<Project> $result */
+        $result = $this->createQueryBuilder('p')
+            ->leftJoin('p.client', 'c')->addSelect('c')
+            ->where('c.email = :email')
+            ->setParameter('email', $email)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
 }
