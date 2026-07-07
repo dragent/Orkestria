@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Facture #{{ invoice.id }}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; font-size: 14px; padding: 40px; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+    .logo { font-size: 22px; font-weight: 700; color: #5b21b6; letter-spacing: -0.5px; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-draft { background: #f1f5f9; color: #64748b; }
+    .badge-sent { background: #dbeafe; color: #1d4ed8; }
+    .badge-paid { background: #dcfce7; color: #15803d; }
+    .title-block { margin-bottom: 32px; }
+    .title-block h1 { font-size: 26px; font-weight: 700; color: #1e293b; }
+    .title-block .subtitle { color: #64748b; font-size: 13px; margin-top: 4px; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+    .meta-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; }
+    .meta-card h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 8px; }
+    .meta-card p { font-size: 14px; color: #1e293b; }
+    .meta-card p.secondary { color: #64748b; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    thead tr { background: #f8fafc; }
+    th { text-align: left; padding: 10px 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; border-bottom: 2px solid #e2e8f0; }
+    td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+    .text-right { text-align: right; }
+    .total-row td { border-top: 2px solid #e2e8f0; font-weight: 700; font-size: 16px; background: #f8fafc; }
+    .paid-banner { background: #dcfce7; border: 1px solid #86efac; border-radius: 8px; padding: 16px; text-align: center; color: #15803d; font-weight: 600; margin-top: 24px; }
+    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8; }
+    @media print { body { padding: 20px; } .no-print { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">Orkestria</div>
+    <span class="badge badge-{{ invoice.status.value }}">
+      {% if invoice.status.value == 'draft' %}Brouillon{% elseif invoice.status.value == 'sent' %}Envoyée{% else %}Payée{% endif %}
+    </span>
+  </div>
+
+  <div class="title-block">
+    <h1>Facture #{{ invoice.id }}</h1>
+    <p class="subtitle">Créée le {{ invoice.createdAt|date('d/m/Y') }}
+      {% if invoice.paidAt %} — Payée le {{ invoice.paidAt|date('d/m/Y') }}{% endif %}
+    </p>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <h3>Projet</h3>
+      <p>{{ invoice.quote.project.title }}</p>
+      <p class="secondary">Devis #{{ invoice.quote.id }}</p>
+    </div>
+    <div class="meta-card">
+      <h3>Client</h3>
+      <p>{{ invoice.quote.project.client.name }}</p>
+      <p class="secondary">{{ invoice.quote.project.client.email }}</p>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Désignation</th>
+        <th class="text-right">Qté</th>
+        <th class="text-right">P.U. HT</th>
+        <th class="text-right">Total HT</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for line in invoice.quote.lines %}
+      <tr>
+        <td>{{ line.label }}</td>
+        <td class="text-right">{{ line.quantity }}</td>
+        <td class="text-right">{{ (line.unitPriceCents / 100)|number_format(2, ',', ' ') }} €</td>
+        <td class="text-right">{{ (line.totalCents / 100)|number_format(2, ',', ' ') }} €</td>
+      </tr>
+      {% endfor %}
+      <tr class="total-row">
+        <td colspan="3">Total HT</td>
+        <td class="text-right">{{ (invoice.totalCents / 100)|number_format(2, ',', ' ') }} €</td>
+      </tr>
+    </tbody>
+  </table>
+
+  {% if invoice.status.value == 'paid' %}
+  <div class="paid-banner">✓ Facture acquittée</div>
+  {% endif %}
+
+  <div class="footer">
+    Orkestria — Document généré automatiquement le {{ 'now'|date('d/m/Y H:i') }}
+  </div>
+</body>
+</html>

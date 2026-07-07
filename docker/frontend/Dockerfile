@@ -9,8 +9,12 @@ RUN npm ci
 # --- Development ---
 FROM base AS development
 COPY --from=deps /app/node_modules ./node_modules
+COPY docker/frontend/docker-entrypoint-dev.sh /usr/local/bin/docker-entrypoint-dev.sh
+# Strip CRLF (Windows clones) — otherwise Kernel reports ENOENT on shebang (/bin/sh\r)
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint-dev.sh && chmod +x /usr/local/bin/docker-entrypoint-dev.sh
 COPY frontend/ .
 EXPOSE 3000
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint-dev.sh"]
 CMD ["npm", "run", "dev"]
 
 # --- Builder ---

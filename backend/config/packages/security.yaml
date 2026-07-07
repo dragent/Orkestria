@@ -3,6 +3,21 @@ security:
         App\Entity\User:
             algorithm: auto
 
+    role_hierarchy:
+        # Orkestria (entreprise mère)
+        ROLE_ADMIN: [ROLE_USER,ROLE_WORKFORCE,ROLE_DEVELOPER,ROLE_ENGINEER,ROLE_RH]
+        ROLE_RH: [ROLE_USER]
+        ROLE_ENGINEER: [ROLE_USER]
+        ROLE_DEVELOPER: [ROLE_USER]
+        ROLE_WORKFORCE: [ROLE_USER]
+        # Sous-traitants BTP
+        ROLE_SUBCONTRACTOR_PATRON: [ROLE_SUBCONTRACTOR_RH,ROLE_SUBCONTRACTOR_WORKFORCE]
+        ROLE_SUBCONTRACTOR_RH: [ROLE_SUBCONTRACTOR]
+        ROLE_SUBCONTRACTOR_WORKFORCE: [ROLE_SUBCONTRACTOR]
+        ROLE_SUBCONTRACTOR: [ROLE_USER]
+        # Clients
+        ROLE_CLIENT: [ROLE_USER]
+
     providers:
         app_user_provider:
             entity:
@@ -17,6 +32,7 @@ security:
         login:
             pattern: ^/auth/login
             stateless: true
+            user_checker: App\Security\UserChecker
             json_login:
                 check_path: /auth/login
                 username_path: email
@@ -32,6 +48,9 @@ security:
     access_control:
         - { path: ^/auth/login, roles: PUBLIC_ACCESS }
         - { path: ^/auth/register, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/verify, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/forgot-password, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
