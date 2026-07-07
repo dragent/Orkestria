@@ -31,6 +31,37 @@ class Client
     #[Groups(['client:read', 'project:read'])]
     private string $email;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['client:read', 'project:read'])]
+    private ?string $phone = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['client:read', 'project:read'])]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['client:read', 'project:read'])]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(['client:read', 'project:read'])]
+    private ?string $postalCode = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['client:read', 'project:read'])]
+    private ?string $country = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['client:read'])]
+    private ?string $notes = null;
+
+    /**
+     * @var list<string>
+     */
+    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
+    #[Groups(['client:read'])]
+    private array $tags = [];
+
     #[ORM\ManyToOne(inversedBy: 'clients')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     #[Groups(['client:read'])]
@@ -100,5 +131,95 @@ class Client
     public function getProjects(): Collection
     {
         return $this->projects;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): static
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(?string $postalCode): static
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): static
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param list<string> $tags
+     */
+    public function setTags(array $tags): static
+    {
+        $this->tags = $tags;
+
+        return $this;
     }
 }

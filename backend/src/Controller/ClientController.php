@@ -83,6 +83,28 @@ final class ClientController extends AbstractController
         $client->setEmail($email);
         $client->setCompany($company);
 
+        if (isset($data['phone'])) {
+            $client->setPhone(trim((string) $data['phone']) ?: null);
+        }
+        if (isset($data['address'])) {
+            $client->setAddress(trim((string) $data['address']) ?: null);
+        }
+        if (isset($data['city'])) {
+            $client->setCity(trim((string) $data['city']) ?: null);
+        }
+        if (isset($data['postalCode'])) {
+            $client->setPostalCode(trim((string) $data['postalCode']) ?: null);
+        }
+        if (isset($data['country'])) {
+            $client->setCountry(trim((string) $data['country']) ?: null);
+        }
+        if (isset($data['notes'])) {
+            $client->setNotes(trim((string) $data['notes']) ?: null);
+        }
+        if (isset($data['tags']) && is_array($data['tags'])) {
+            $client->setTags(array_values(array_filter(array_map('strval', $data['tags']))));
+        }
+
         $violations = $this->validator->validate($client);
         if (\count($violations) > 0) {
             return $this->validationErrorResponse($violations);
@@ -135,6 +157,28 @@ final class ClientController extends AbstractController
                 return $this->json(['message' => 'Company not found.'], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             $client->setCompany($company);
+        }
+
+        if (array_key_exists('phone', $data)) {
+            $client->setPhone(trim((string) $data['phone']) ?: null);
+        }
+        if (array_key_exists('address', $data)) {
+            $client->setAddress(trim((string) $data['address']) ?: null);
+        }
+        if (array_key_exists('city', $data)) {
+            $client->setCity(trim((string) $data['city']) ?: null);
+        }
+        if (array_key_exists('postalCode', $data)) {
+            $client->setPostalCode(trim((string) $data['postalCode']) ?: null);
+        }
+        if (array_key_exists('country', $data)) {
+            $client->setCountry(trim((string) $data['country']) ?: null);
+        }
+        if (array_key_exists('notes', $data)) {
+            $client->setNotes(trim((string) $data['notes']) ?: null);
+        }
+        if (array_key_exists('tags', $data) && is_array($data['tags'])) {
+            $client->setTags(array_values(array_filter(array_map('strval', $data['tags']))));
         }
 
         $violations = $this->validator->validate($client);
